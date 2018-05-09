@@ -141,15 +141,10 @@ int main()
 		}
 		cout << endl;
 		Map01->drawMap();
-		startGame -= 1;
 		cout << endl;
 		cout << "Enter.....For Deal Damage To All Monster By 1 Point";
+		startGame -= 1;
 	}
-
-
-
-
-
 	return 0;
 }
 
