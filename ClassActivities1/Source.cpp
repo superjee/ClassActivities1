@@ -7,7 +7,7 @@
 using namespace std;
 int main()
 {
-	//Test
+	//Test up
 	srand(time(NULL));
 	Monster *monster = new Monster();
 	monster->init();
