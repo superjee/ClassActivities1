@@ -1,4 +1,8 @@
 #include "Monster.h"
+
+#include "zombie.h"
+#include "Orc.h"
+
 #include <iostream>
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
@@ -27,21 +31,21 @@ Monster::~Monster()
 {
 }
 
-void Monster::init()
+void Monster::initiation(int type,int index)
 {
-	srand(time(NULL));
-	for (int i = 0; i < 100; i++)
-	{
-		monsterA[i] = rand() % 2;
-		if (monsterA[i] == 0)
-		{
-			cout << "Zombie";
-		}
-		else if (monsterA[i] == 1)
-		{
-			cout << "Orc";
-		}
-
+	switch (type) {
+	case 1:
+		cout << "Monster index : " << index << " ";
+		new zombie(this);
+		cout << "Attack = " << this->get_Atk() << " " << endl;
+		break;
+	case 2:
+		cout << "Monster index : " << index << " ";
+		new Orc(this);
+		cout << "Attack = " << this->get_Atk() << " " << endl;
+		break;
+	default:
+		cout << "error Monster::init >>> type not match" << endl;
 	}
 
 }
@@ -75,8 +79,6 @@ void Monster::set_Atk(int atk, int swing)
 
 int Monster::get_Atk()
 {
-	/* initialize random seed: */
-	srand(time(NULL));
 	int r = rand() % AtkMax + AtkMin;
-	return 0;
+	return r;
 }

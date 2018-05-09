@@ -1,34 +1,29 @@
 #include <iostream>
+#include <vector>
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
 #include "Monster.h"
 #include "zombie.h"
 #include "Orc.h"
 using namespace std;
+//Test up in Visual // can not push by Visual??? ,but can push by GitHub Desktop.
+
+const int MaxNumberOfMonster = 100; //ค่าคงที่
+
 int main()
-{
-	//Test up in Visual // can not push by Visual??? ,but can push by GitHub Desktop.
-	srand(time(NULL));
-	Monster *monster = new Monster();
-	monster->init();
 
+{	srand(time(NULL));
+	int ran = -1;
 
-	/*for (int i = 0; i < 100; i++)
+	Monster *monster[MaxNumberOfMonster];
+
+	for (int i = 0; i < MaxNumberOfMonster; i++)
 	{
-		int ran = rand() % 2 + 1;
-		if (ran == 1)
-		{
-			
-		}
-		else if (ran == 2)
-		{
+		monster[i] = new Monster();
+		ran = rand() % 2 + 1;
+		monster[i]->initiation(ran, i);
+	}
 
-		}
-		//int ranA = rand() % 10 + 1;
-		//cout << ran << endl;
-	}*/
-
-	cout << "a";
 	getchar();
 	return 0;
 }
