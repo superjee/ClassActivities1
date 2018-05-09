@@ -7,7 +7,7 @@
 using namespace std;
 int main()
 {
-	//Test up in Visual
+	//Test up in Visual // can not push by Visual??? ,but can push by GitHub Desktop.
 	srand(time(NULL));
 	Monster *monster = new Monster();
 	monster->init();
