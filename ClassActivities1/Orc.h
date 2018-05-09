@@ -7,6 +7,7 @@ class Orc :
 	public Monster
 {
 public:
+	Orc();
 	Orc(Monster *base);
 	virtual ~Orc();
 };

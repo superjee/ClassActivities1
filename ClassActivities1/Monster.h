@@ -9,7 +9,7 @@ public:
 	Monster();
 	Monster(int atk, int swing);
 	~Monster();
-	void initiation(int type,int index);
+	void initiation(int type,int index, Monster *base[]);
 	void AddDamageToPlayer();
 	void set_HP(int);
 	int get_HP();

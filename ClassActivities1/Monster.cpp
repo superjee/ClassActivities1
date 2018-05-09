@@ -31,9 +31,25 @@ Monster::~Monster()
 {
 }
 
-void Monster::initiation(int type,int index)
+void Monster::initiation(int type,int index,Monster *base[])
 {
 	switch (type) {
+	case 1:
+		cout << "Monster index : " << index << " ";
+		base[index] = new zombie();
+		cout << "Attack = " << base[index]->get_Atk() << " " << endl;
+		break;
+	case 2:
+		cout << "Monster index : " << index << " ";
+		base[index] = new Orc();
+		cout << "Attack = " << base[index]->get_Atk() << " " << endl;
+		break;
+	default:
+		cout << "error Monster::init >>> type not match" << endl;
+	}
+
+	//Old code
+	/*switch (type) {
 	case 1:
 		cout << "Monster index : " << index << " ";
 		new zombie(this);
@@ -46,7 +62,7 @@ void Monster::initiation(int type,int index)
 		break;
 	default:
 		cout << "error Monster::init >>> type not match" << endl;
-	}
+	}*/
 
 }
 
@@ -79,6 +95,7 @@ void Monster::set_Atk(int atk, int swing)
 
 int Monster::get_Atk()
 {
-	int r = rand() % AtkMax + AtkMin;
+	//ถ้าใส่ rand() % ((37 + 1) - 23) + 23; จะได้ค่า 23 ถึง 37
+	int r = rand() % ((AtkMax+1)- AtkMin) + AtkMin;
 	return r;
 }
