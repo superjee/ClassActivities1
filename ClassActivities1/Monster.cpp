@@ -33,20 +33,21 @@ Monster::~Monster()
 
 void Monster::initiation(int type,int index,Monster *base[])
 {
+	
+	cout << "Monster index : " << index << " ";
+
 	switch (type) {
 	case 1:
-		cout << "Monster index : " << index << " ";
 		base[index] = new zombie();
-		cout << "Attack = " << base[index]->get_Atk() << " " << endl;
 		break;
 	case 2:
-		cout << "Monster index : " << index << " ";
 		base[index] = new Orc();
-		cout << "Attack = " << base[index]->get_Atk() << " " << endl;
 		break;
 	default:
 		cout << "error Monster::init >>> type not match" << endl;
 	}
+
+	cout << "Attack = " << base[index]->get_Atk() << " ";
 
 	//Old code
 	/*switch (type) {
@@ -83,6 +84,7 @@ int Monster::get_HP()
 
 void Monster::set_Atk(int atk, int swing)
 {
+	AtkLast = atk;
 	Atk = atk;
 	AtkSwing = swing;
 	AtkMax = Atk + AtkSwing;
@@ -97,5 +99,53 @@ int Monster::get_Atk()
 {
 	//ถ้าใส่ rand() % ((37 + 1) - 23) + 23; จะได้ค่า 23 ถึง 37
 	int r = rand() % ((AtkMax+1)- AtkMin) + AtkMin;
-	return r;
+	AtkLast = r;
+	return AtkLast;
+}
+
+int Monster::get_criticalHit()
+{
+	AtkLast *= 2;
+	return AtkLast;
+}
+
+int Monster::monsterGetDamaged(int damage)
+{
+	HP -= damage;
+	return HP;
+}
+
+void Monster::set_MonsterType(int Type)
+{
+	MonsterType = Type;
+}
+
+int Monster::get_MonsterType()
+{
+	return MonsterType;
+}
+
+void Monster::set_Pos(int x, int y)
+{
+	Pos_X = x;
+	Pos_Y = y;
+}
+
+int Monster::get_Pos(int xy)
+{
+	if (xy == 0)
+	{
+		return Pos_X;
+	}
+	else if (xy == 1)
+	{
+		return Pos_Y;
+	}
+	else
+	return 0;
+}
+
+void Monster::printPos()
+{
+	cout << " Position ( " << Pos_X << " , " << Pos_Y << " )";
 }

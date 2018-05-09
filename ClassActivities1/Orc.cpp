@@ -3,9 +3,10 @@
 
 Orc::Orc()
 {
+	set_MonsterType(2);
 	std::cout << " !!Orc!! ";
 	set_Atk(30, 7);
-	set_HP(300);
+	set_HP(5);
 	//std::cout << "Attack = " << this->get_Atk() << " " << std::endl;
 	//free(this);
 }

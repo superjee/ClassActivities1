@@ -4,9 +4,10 @@
 
 zombie::zombie()
 {
+	set_MonsterType(1);
 	std::cout << " !!zombie!! ";
 	set_Atk(10, 3);
-	set_HP(100);
+	set_HP(3);
 	//std::cout << "Attack = " << this->get_Atk() << " " << std::endl;
 	//free(this);
 }
