@@ -1,5 +1,7 @@
 #pragma once
 #include <string>
+#include <vector>
+#include <memory>
 #ifndef Monster_HPP
 #define Monster_HPP
 class Monster
@@ -8,7 +10,7 @@ public:
 	Monster();
 	Monster(int atk, int swing);
 	~Monster();
-	void initiation(int type,int index, Monster *base[]);
+	void initiation(int type,int index, std::vector<std::shared_ptr<Monster>> monster);//Monster *base[]
 	void AddDamageToPlayer();
 	void set_HP(int);
 	int get_HP();

@@ -24,5 +24,5 @@ zombie::zombie(Monster *base)
 
 zombie::~zombie()
 {
-	
+	//free(this);
 }

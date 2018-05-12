@@ -1,21 +1,18 @@
 #include <iostream>
-//#include <conio.h>
-//#include <stdio.h>
 #include <windows.h>
 #include <vector>
+#define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
+//add 12/05/61
+#include <crtdbg.h>
+#include <memory>
 #include "Monster.h"
-//#include "zombie.h"
-//#include "Orc.h"
 #include "WorldMap.h"
-
 using namespace std;
 //Test up in Visual // can not push by Visual??? ,but can push by GitHub Desktop.
 
-const int MaxNumberOfMonster = 100; //ค่าคงที่
-//const int x_World = 30;
-//const int y_World = 30;
+const int MaxNumberOfMonster = 100;
 
 void ClearScreen()
 {
@@ -54,30 +51,15 @@ void ClearScreen()
 	SetConsoleCursorPosition(hStdOut, homeCoords);
 }
 
+//void print()
+
 int main()
 {	
-	//int WorldMap[x_World][y_World];
-	/*HANDLE a;
-	DWORD b;
-	INPUT_RECORD c[1];
-	if (HANDLE(a = GetStdHandle(0xfffffff6)) == INVALID_HANDLE_VALUE)
-		return 1;
-	while (1) {
-		if (!ReadConsoleInput(a, c, 1, &b))
-			return 1;
-		for (DWORD i = 0; i<b; i++)
-			if (c[i].EventType == 2) {
-				if (c[i].Event.MouseEvent.dwButtonState & 0x0001)
-					cout << "Left click\n";
-				if (c[i].Event.MouseEvent.dwButtonState & 0x0002)
-					cout << "Right click\n";
-			}
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
-		ClearScreen();
-	}*/
-
-	WorldMap *Map01 = new WorldMap();
-	Map01->initiation();
+	std::vector<WorldMap*> Map01;
+	Map01.push_back(new WorldMap());
+	Map01[0]->initiation();
 
 	cout << "///////////        Links To Fantasy        ////////////" << endl;
 	cout << "/                 by Tanapat Yatana                   /" << endl;
@@ -94,29 +76,33 @@ int main()
 	int ranX = -1;
 	int ranY = -1;
 
-	Monster *monster[MaxNumberOfMonster];
+	//Monster *monster[MaxNumberOfMonster];
+	//auto m = std::make_shared<Monster[MaxNumberOfMonster]>();
+	std::vector<std::shared_ptr<Monster>> monster;
+	for(int i = 0; i<MaxNumberOfMonster;i++)
+		monster.push_back(std::make_shared<Monster>()); //loop 100
 
 	for (int i = 0; i < MaxNumberOfMonster; i++)
 	{
 		ran = rand() % 2 + 1;
 		monster[i]->initiation(ran, i, monster);
 		do {
-			ranX = rand() % Map01->getLength(0);
-			ranY = rand() % Map01->getLength(1);
-		} while (Map01->getObjInMap(ranX, ranY) != -1);
-		Map01->setObjInMap(ranX, ranY, ran);
+			ranX = rand() % Map01[0]->getLength(0);
+			ranY = rand() % Map01[0]->getLength(1);
+		} while (Map01[0]->getObjInMap(ranX, ranY) != -1);
+		Map01[0]->setObjInMap(ranX, ranY, ran);
 		monster[i]->set_Pos(ranX, ranY);
 		monster[i]->printPos();
 		cout << endl;
 	}
 	cout << endl;
-	Map01->drawMap();
+	Map01[0]->drawMap();
 	cout << endl;
 	cout << "Enter.....For Deal Damage To All Monster By 1 Point";
 	int startGame = 0;
-	while (true)
+	//while (true)
 	{
-		getchar();
+		//getchar();
 		ClearScreen();
 		if (startGame <= 0)
 		{
@@ -124,14 +110,14 @@ int main()
 			{
 				if (monster[i]->monsterGetDamaged(1) <= 0) // Monster HP - 1
 				{
-					Map01->setObjInMap(monster[i]->get_Pos(0), monster[i]->get_Pos(1), -1);
+					Map01[0]->setObjInMap(monster[i]->get_Pos(0), monster[i]->get_Pos(1), -1);
 
 					monster[i]->initiation(monster[i]->get_MonsterType(), i, monster);
 					do {
-						ranX = rand() % Map01->getLength(0);
-						ranY = rand() % Map01->getLength(1);
-					} while (Map01->getObjInMap(ranX, ranY) != -1);
-					Map01->setObjInMap(ranX, ranY, monster[i]->get_MonsterType());
+						ranX = rand() % Map01[0]->getLength(0);
+						ranY = rand() % Map01[0]->getLength(1);
+					} while (Map01[0]->getObjInMap(ranX, ranY) != -1);
+					Map01[0]->setObjInMap(ranX, ranY, monster[i]->get_MonsterType());
 					monster[i]->set_Pos(ranX, ranY);
 					monster[i]->printPos();
 					cout << endl;
@@ -140,11 +126,13 @@ int main()
 			}
 		}
 		cout << endl;
-		Map01->drawMap();
+		Map01[0]->drawMap();
 		cout << endl;
 		cout << "Enter.....For Deal Damage To All Monster By 1 Point";
 		startGame -= 1;
 	}
+
+	delete Map01[0];
 	return 0;
 }
 

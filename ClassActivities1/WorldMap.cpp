@@ -10,6 +10,7 @@ WorldMap::WorldMap()
 
 WorldMap::~WorldMap()
 {
+	//delete(this);
 }
 
 void WorldMap::initiation()

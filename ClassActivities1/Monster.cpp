@@ -6,8 +6,8 @@
 #include <iostream>
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
-
-
+#include <vector>
+#include <memory>
 using namespace std;
 
 
@@ -29,41 +29,26 @@ Monster::Monster(int atk, int swing)
 
 Monster::~Monster()
 {
+	//free(this);
 }
 
-void Monster::initiation(int type,int index,Monster *base[])
+void Monster::initiation(int type,int index, std::vector<std::shared_ptr<Monster>> monster)//Monster *base[]
 {
 	
 	cout << "Monster index : " << index << " ";
 
 	switch (type) {
 	case 1:
-		base[index] = new zombie();
+		monster.push_back(std::make_shared<zombie>());//base[index] = new zombie();
 		break;
 	case 2:
-		base[index] = new Orc();
+		monster.push_back(std::make_shared<Orc>());//base[index] = new Orc();
 		break;
 	default:
 		cout << "error Monster::init >>> type not match" << endl;
 	}
 
-	cout << "Attack = " << base[index]->get_Atk() << " ";
-
-	//Old code
-	/*switch (type) {
-	case 1:
-		cout << "Monster index : " << index << " ";
-		new zombie(this);
-		cout << "Attack = " << this->get_Atk() << " " << endl;
-		break;
-	case 2:
-		cout << "Monster index : " << index << " ";
-		new Orc(this);
-		cout << "Attack = " << this->get_Atk() << " " << endl;
-		break;
-	default:
-		cout << "error Monster::init >>> type not match" << endl;
-	}*/
+	cout << "Attack = " << monster[index]->get_Atk() << " ";//cout << "Attack = " << base[index]->get_Atk() << " ";
 
 }
 

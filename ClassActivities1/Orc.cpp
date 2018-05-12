@@ -21,4 +21,5 @@ Orc::Orc(Monster *base)
 
 Orc::~Orc()
 {
+	//free(this);
 }
