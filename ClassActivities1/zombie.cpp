@@ -1,28 +1,21 @@
 #include "zombie.h"
 #include <iostream>
 
+#define TYPE 1
+#define HP 3
+#define ATK_BASE 10
+#define ATK_SWING 3
 
 zombie::zombie()
 {
-	set_MonsterType(1);
+	set_MonsterType(TYPE);
 	std::cout << " !!zombie!! ";
-	set_Atk(10, 3);
-	set_HP(3);
-	//std::cout << "Attack = " << this->get_Atk() << " " << std::endl;
-	//free(this);
+	set_Atk(ATK_BASE, ATK_SWING);
+	set_HP(HP);
+
 }
-
-
-zombie::zombie(Monster *base)
-{
-	std::cout << " !!zombie!! ";
-	base->set_Atk(10, 3);
-	base->set_HP(100);
-	//free(this);
-}
-
 
 zombie::~zombie()
 {
-	//free(this);
+
 }

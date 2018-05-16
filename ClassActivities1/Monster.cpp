@@ -1,130 +1,108 @@
 #include "Monster.h"
-
 #include "zombie.h"
 #include "Orc.h"
-
 #include <iostream>
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
 #include <vector>
 #include <memory>
-using namespace std;
-
 
 Monster::Monster()
 {
 }
-
-Monster::Monster(int atk, int swing)
-{
-	Atk = atk;
-	AtkSwing = swing;
-	AtkMax = Atk + AtkSwing;
-	AtkMin = Atk - AtkSwing;
-	if (AtkMin < 0)
-	{
-		AtkMin = 0;
-	}
-}
-
 Monster::~Monster()
 {
-	//free(this);
 }
 
-void Monster::initiation(int type,int index, std::vector<std::shared_ptr<Monster>> monster)//Monster *base[]
+void Monster::initiation(int type,int index, std::vector<std::shared_ptr<Monster>> monster)
 {
-	
-	cout << "Monster index : " << index << " ";
-
+	std::cout << "Monster index : " << index << " ";
 	switch (type) {
 	case 1:
-		monster.push_back(std::make_shared<zombie>());//base[index] = new zombie();
+		*monster[index] = zombie();
 		break;
 	case 2:
-		monster.push_back(std::make_shared<Orc>());//base[index] = new Orc();
+		*monster[index] = Orc();
 		break;
 	default:
-		cout << "error Monster::init >>> type not match" << endl;
+		std::cout << "error Monster::init >>> type not match" << std::endl;
 	}
-
-	cout << "Attack = " << monster[index]->get_Atk() << " ";//cout << "Attack = " << base[index]->get_Atk() << " ";
-
+	std::cout << "Attack = " << monster[index]->get_Atk() << " ";
 }
 
 void Monster::AddDamageToPlayer()
 {
-	cout << "TakeFromMonsterClass";
+	std::cout << "TakeFromMonsterClass";
 }
 
-void Monster::set_HP(int hp)
+void Monster::set_HP(int input_hp)
 {
-	HP = hp;
+	hp = input_hp;
 }
 
 int Monster::get_HP()
 {
-	return HP;
+	return hp;
 }
 
-void Monster::set_Atk(int atk, int swing)
+void Monster::set_Atk(int input_atk, int input_swing)
 {
-	AtkLast = atk;
-	Atk = atk;
-	AtkSwing = swing;
-	AtkMax = Atk + AtkSwing;
-	AtkMin = Atk - AtkSwing;
-	if (AtkMin < 0)
+	atkLast = input_atk;
+	atk = input_atk;
+	atkSwing = input_swing;
+	atkMax = atk + atkSwing;
+	atkMin = atk - atkSwing;
+	if (atkMin < 0)
 	{
-		AtkMin = 0;
+		atkMin = 0;
 	}
 }
 
 int Monster::get_Atk()
 {
 	//ถ้าใส่ rand() % ((37 + 1) - 23) + 23; จะได้ค่า 23 ถึง 37
-	int r = rand() % ((AtkMax+1)- AtkMin) + AtkMin;
-	AtkLast = r;
-	return AtkLast;
+	int r = rand() % ((atkMax+1)- atkMin) + atkMin;
+	atkLast = r;
+	return atkLast;
 }
 
 int Monster::get_criticalHit()
 {
-	AtkLast *= 2;
-	return AtkLast;
+	atkLast *= criticalMultiplier;
+	return atkLast;
 }
 
 int Monster::monsterGetDamaged(int damage)
 {
-	HP -= damage;
-	return HP;
+	hp -= damage;
+	return hp;
 }
 
 void Monster::set_MonsterType(int Type)
 {
-	MonsterType = Type;
+	monsterType = Type;
 }
 
 int Monster::get_MonsterType()
 {
-	return MonsterType;
+	return monsterType;
 }
 
 void Monster::set_Pos(int x, int y)
 {
-	Pos_X = x;
-	Pos_Y = y;
+	pos_X = x;
+	pos_Y = y;
 }
 
 int Monster::get_Pos(int xy)
 {
-	if (xy == 0)
+	if (xy == X)
 	{
-		return Pos_X;
+		return pos_X;
 	}
-	else if (xy == 1)
+	else if (xy == Y)
 	{
-		return Pos_Y;
+		return pos_Y;
 	}
 	else
 	return 0;
@@ -132,5 +110,5 @@ int Monster::get_Pos(int xy)
 
 void Monster::printPos()
 {
-	cout << " Position ( " << Pos_X << " , " << Pos_Y << " )";
+	std::cout << " Position ( " << pos_X << " , " << pos_Y << " )";
 }

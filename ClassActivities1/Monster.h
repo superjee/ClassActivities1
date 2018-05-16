@@ -8,9 +8,8 @@ class Monster
 {
 public:
 	Monster();
-	Monster(int atk, int swing);
 	~Monster();
-	void initiation(int type,int index, std::vector<std::shared_ptr<Monster>> monster);//Monster *base[]
+	void initiation(int type,int index, std::vector<std::shared_ptr<Monster>> monster);
 	void AddDamageToPlayer();
 	void set_HP(int);
 	int get_HP();
@@ -22,20 +21,22 @@ public:
 	int get_MonsterType();
 	void set_Pos(int x, int y);
 	int get_Pos(int xy);
-
 	void printPos();
-	//void printAtk();
-
 private:
-	int HP = -1;
-	int Atk = -1;
-	int AtkSwing = -1;
-	int AtkMax = -1;
-	int AtkMin = -1;
-	int AtkLast = -1;
-	int MonsterType = -1;
+	static const int X = 0;
+	static const int Y = 1;
+
+	int hp = -1;
+	int atk = -1;
+	int atkSwing = -1;
+	int atkMax = -1;
+	int atkMin = -1;
+	int atkLast = -1;
+	int criticalMultiplier = 2;
+
+	int monsterType = -1;
 	//Monster position
-	int Pos_X = -1;
-	int Pos_Y = -1;
+	int pos_X = -1;
+	int pos_Y = -1;
 };
 #endif

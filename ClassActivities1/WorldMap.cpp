@@ -1,23 +1,16 @@
 #include "WorldMap.h"
 #include <iostream>
-
-
 WorldMap::WorldMap()
 {
 }
-
-
-
 WorldMap::~WorldMap()
 {
-	//delete(this);
 }
-
 void WorldMap::initiation()
 {
-	for (int i = 0; i < y; i++)
+	for (int i = 0; i < Y; i++)
 	{
-		for (int j = 0; j < x; j++)
+		for (int j = 0; j < X; j++)
 		{
 			worldMap[i][j] = -1;
 		}
@@ -26,21 +19,21 @@ void WorldMap::initiation()
 
 void WorldMap::drawMap()
 {
-	for (int i = 0; i < y; i++)
+	for (int i = 0; i < Y; i++)
 	{
-		for (int j = 0; j < x; j++)
+		for (int j = 0; j < X; j++)
 		{
-			if (worldMap[i][j] == -1)
+			if (worldMap[i][j] == OBJ_empty)
 			{
-				std::cout << " =";
+				std::cout << " " << static_cast<char>(SYM_empty);;
 			}
-			else if (worldMap[i][j] == 1)
+			else if (worldMap[i][j] == OBJ_ZOMBIE)
 			{
-				std::cout << " " << Monster1;//<< worldMap[i][j] << "";
+				std::cout << " " << static_cast<char>(SYM_ZOMBIE);
 			}
-			else if (worldMap[i][j] == 2)
+			else if (worldMap[i][j] == OBJ_ORC)
 			{
-				std::cout << " " << Monster2;//<< worldMap[i][j] << "";
+				std::cout << " " << static_cast<char>(SYM_ORC);
 			}
 		}
 		std::cout << std::endl;
@@ -49,16 +42,17 @@ void WorldMap::drawMap()
 
 int WorldMap::getLength(int xy)
 {
-	if (xy == 0)
+	if (xy == WorldMap_X)
 	{
-		return x;
+		return X;
 	}
-	else if (xy == 1)
+	else if (xy == WorldMap_Y)
 	{
-		return y;
+		return Y;
 	}
 	else
 	{
+		std::cout << std::endl << "WorldMap::getLength Error" << std::endl;
 		return -1;
 	}
 }

@@ -1,25 +1,21 @@
 #include "Orc.h"
 #include <iostream>
 
+#define TYPE 2
+#define HP 5
+#define ATK_BASE 30
+#define ATK_SWING 7
+
 Orc::Orc()
 {
-	set_MonsterType(2);
+	set_MonsterType(TYPE);
 	std::cout << " !!Orc!! ";
-	set_Atk(30, 7);
-	set_HP(5);
-	//std::cout << "Attack = " << this->get_Atk() << " " << std::endl;
-	//free(this);
+	set_Atk(ATK_BASE, ATK_SWING);
+	set_HP(HP);
 }
 
-Orc::Orc(Monster *base)
-{
-	std::cout << " !!Orc!! ";
-	base->set_Atk(30, 7);
-	base->set_HP(300);
-	//free(this);
-}
 
 Orc::~Orc()
 {
-	//free(this);
+
 }

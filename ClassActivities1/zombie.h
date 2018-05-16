@@ -7,7 +7,6 @@ class zombie :
 {
 public:
 	zombie();
-	zombie(Monster *base);
 	virtual ~zombie();
 };
 #endif
