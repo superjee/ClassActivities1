@@ -72,9 +72,14 @@ int Monster::get_criticalHit()
 	return atkLast;
 }
 
+/*monsterGetDamaged return hp*/
 int Monster::monsterGetDamaged(int damage)
 {
 	hp -= damage;
+	if (hp < 0)
+	{
+		hp = 0;
+	}
 	return hp;
 }
 
@@ -121,4 +126,14 @@ int Monster::get_Pos(int xy)
 void Monster::printPos()
 {
 	std::cout << " Position ( " << pos_X << " , " << pos_Y << " )";
+}
+
+void Monster::printType()
+{
+	std::cout << "   *Type Error*  ";
+}
+
+int Monster::get_atkLast()
+{
+	return atkLast;
 }

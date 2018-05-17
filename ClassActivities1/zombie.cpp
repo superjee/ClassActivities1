@@ -20,3 +20,8 @@ zombie::~zombie()
 {
 
 }
+
+void zombie::printType()
+{
+	std::cout << "zombie";
+}

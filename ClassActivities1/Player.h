@@ -16,6 +16,10 @@ public:
 	void printPos();
 	int get_AtkMin();
 	int get_AtkMax();
+	//getDamaged(int damage)
+	//input damage
+	//return hp
+	int getDamaged(int damage);
 private:
 	static const int X = 0;
 	static const int Y = 1;

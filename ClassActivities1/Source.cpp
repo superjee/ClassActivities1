@@ -32,6 +32,8 @@
 #define START_ATK 75
 #define START_SWING 7
 
+#define MONSTER_STATUS_POS 40
+
 std::vector<WorldMap*> Map;
 std::vector<std::shared_ptr<Monster>> monster;
 std::vector<std::shared_ptr<Player>> player;
@@ -45,7 +47,7 @@ bool QuitGame = false;
 bool isInput = false;
 int KB_code = 0;
 bool isBattle = false;
-
+int battleTick = 0;
 // function prototypes
 void gotoxy(int x, int y);
 void moveUP();
@@ -57,7 +59,9 @@ void printStartGame();
 void printPlayerStatus(bool start = false);
 void playerInput();
 void keyboardInput();
-void initGame();
+void initGame(bool start = true);
+void printMonsterStatus(bool start = false);
+void deleteMonsterStatus();
 
 void clearScreen()
 {
@@ -142,7 +146,36 @@ void updateGame()
 
 	if (isBattle)
 	{
+		battleTick++;
+		if (battleTick >= 10)
+		{
+			//Battle
+			battleTick = 0;
+			if (monster[Map[MAP_ID]->getOldObj()]->monsterGetDamaged(player[0]->get_Atk()) <= 0)
+			{
+				isBattle = false;
+				Map[MAP_ID]->setObjInMap(player[0]->get_Pos(WorldMap_X), player[0]->get_Pos(WorldMap_Y), PLAYER_ID);
+				Map[MAP_ID]->drawObjInMap(player[0]->get_Pos(WorldMap_X), player[0]->get_Pos(WorldMap_Y), PLAYER_ID, player[0]->get_PlayerSymbolic());
+				playerMove(player[0]->get_Pos(WorldMap_X), player[0]->get_Pos(WorldMap_Y), 
+					player[0]->get_Pos(WorldMap_X), player[0]->get_Pos(WorldMap_Y));
 
+				
+			}
+			else if (player[0]->getDamaged(monster[Map[MAP_ID]->getOldObj()]->get_Atk()) <= 0)
+			{
+				//Game Over
+				isBattle = false;
+				clearScreen();
+				initGame(false);
+			}
+			printPlayerStatus();
+			printMonsterStatus();
+		}
+	}
+	else
+	{
+		battleTick = 0;
+		deleteMonsterStatus();
 	}
 
 	Sleep(50);
@@ -153,77 +186,11 @@ int main()
 {	
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	initGame();
-	//std::cout << std::endl;
-
-	//Map[MAP_ID]->drawMap();
-	Map[MAP_ID]->drawMapBox();
-	//drawPlayer
-	Map[MAP_ID]->drawObjInMap(player[0]->get_Pos(WorldMap_X),
-		player[0]->get_Pos(WorldMap_Y),
-		PLAYER_ID,
-		player[0]->get_PlayerSymbolic());
-	//drawMonster
-	for (int i = 0; i < MAX_NUMBER_OF_MONSTER; i++)
-	{
-		Map[MAP_ID]->drawObjInMap(monster[i]->get_Pos(WorldMap_X), 
-			monster[i]->get_Pos(WorldMap_Y), 
-			i,
-			monster[i]->get_MonsterSymbolic());
-	}
-
 	while (!QuitGame)
 	{
 		keyboardInput();
 		updateGame();
 	}
-
-
-
-	/*while (true)
-	{
-		if (quitButtonPressed())
-		{
-			break;
-		}
-
-		playerInput();
-
-		startGame++;
-		clearScreen();
-		std::cout << "RE " << startGame;
-
-		//REQUIRE(FIRST_INDEX <= t_id && t_id < static_cast<int>(m_monsters_.size()));
-		/*startGame++;
-		clearScreen();
-		std::cout << "RE " << startGame;
-		if (startGame <= 0)
-		{
-			for (int i = 0; i < MAX_NUMBER_OF_MONSTER; i++)
-			{
-				if (monster[i]->monsterGetDamaged(1) <= 0) // Monster HP - 1
-				{
-					Map[MAP_ID]->setObjInMap(monster[i]->get_Pos(WorldMap_X), monster[i]->get_Pos(WorldMap_Y), -1);
-
-					monster[i]->initiation(monster[i]->get_MonsterType(), i, monster);
-					do {
-						ranX = rand() % Map[MAP_ID]->getLength(WorldMap_X);
-						ranY = rand() % Map[MAP_ID]->getLength(WorldMap_Y);
-					} while (Map[MAP_ID]->getObjInMap(ranX, ranY) != Map[MAP_ID]->OBJ_empty);
-					Map[MAP_ID]->setObjInMap(ranX, ranY, monster[i]->get_MonsterType());
-					monster[i]->set_Pos(ranX, ranY);
-					monster[i]->printPos();
-					std::cout << std::endl;
-
-				}
-			}
-		}
-		std::cout << std::endl;
-		Map[MAP_ID]->drawMap();
-		std::cout << std::endl;
-		std::cout << "Enter.....For Deal Damage To All Monster By 1 Point";
-		startGame -= 1;*/
-	//}
-
 	delete Map[MAP_ID];
 	return 0;
 }
@@ -308,9 +275,6 @@ void playerMove(int currentX, int currentY, int nextX, int nextY)
 		Map[MAP_ID]->drawObjInMap(nextX, nextY, PLAYER_ID, player[0]->get_PlayerSymbolic());
 
 		player[0]->set_Pos(nextX, nextY);
-
-		gotoxy(40, Map[MAP_ID]->getEndPosY());
-		std::cout << "                                       ";
 	}
 	else if (isBattle && Map[MAP_ID]->getObjInMap(nextX, nextY) != Map[MAP_ID]->OBJ_empty  && Map[MAP_ID]->getObjInMap(nextX, nextY) != PLAYER_ID) // เดินออกไปหามอนอีกตัวขณะสู้อยู่
 	{
@@ -324,9 +288,7 @@ void playerMove(int currentX, int currentY, int nextX, int nextY)
 		Map[MAP_ID]->drawObjInMap(nextX, nextY, BATTLE_ID, Map[MAP_ID]->OBJ_BATTLE);
 
 		player[0]->set_Pos(nextX, nextY);
-
-		gotoxy(40, Map[MAP_ID]->getEndPosY());
-		std::cout << "HIT MONSTER ID " << Map[MAP_ID]->getOldObj();
+		printMonsterStatus(true);
 	}
 	else if (Map[MAP_ID]->getObjInMap(nextX, nextY) == Map[MAP_ID]->OBJ_empty)
 	{
@@ -351,10 +313,7 @@ void playerMove(int currentX, int currentY, int nextX, int nextY)
 		Map[MAP_ID]->drawObjInMap(nextX, nextY, BATTLE_ID, Map[MAP_ID]->OBJ_BATTLE);
 
 		player[0]->set_Pos(nextX, nextY);
-
-		gotoxy(40, Map[MAP_ID]->getEndPosY());
-		std::cout << "HIT MONSTER ID " << Map[MAP_ID]->getOldObj();
-
+		printMonsterStatus(true);
 	}
 }
 
@@ -371,16 +330,16 @@ void printStartGame()
 	std::cout << std::endl;
 }
 
-void initGame()
+void initGame(bool start)
 {
-	srand(time(NULL));
-
-	Map.push_back(new WorldMap());
+	startGame = 0;
+	if (start)srand(time(NULL));
+	if (start)Map.push_back(new WorldMap());
 	Map[MAP_ID]->initiation();
 
 	printStartGame();
 	//ADD Player
-	player.push_back(std::make_shared<Player>());
+	if (start)player.push_back(std::make_shared<Player>());
 	player[0]->initiation(START_HP, START_ATK, START_SWING);
 	ranX = rand() % Map[MAP_ID]->getLength(WorldMap_X);
 	ranY = rand() % Map[MAP_ID]->getLength(WorldMap_Y);
@@ -390,7 +349,7 @@ void initGame()
 	printPlayerStatus(true);
 
 	//ADD Monster
-	for (int i = 0; i < MAX_NUMBER_OF_MONSTER; i++)
+	if (start)for (int i = 0; i < MAX_NUMBER_OF_MONSTER; i++)
 	{
 		monster.push_back(std::make_shared<Monster>());
 	}
@@ -404,14 +363,22 @@ void initGame()
 		} while (Map[MAP_ID]->getObjInMap(ranX, ranY) != Map[MAP_ID]->OBJ_empty);
 		Map[MAP_ID]->setObjInMap(ranX, ranY, i);
 		monster[i]->set_Pos(ranX, ranY);
-		//monster[i]->printPos();
-		//std::cout << std::endl;
 	}
 
-	//std::cout << std::endl;
-	//Map[MAP_ID]->drawMap();
-	//std::cout << std::endl;
-	//std::cout << "Enter.....For Deal Damage To All Monster By 1 Point";
+	Map[MAP_ID]->drawMapBox();
+	//drawPlayer
+	Map[MAP_ID]->drawObjInMap(player[0]->get_Pos(WorldMap_X),
+		player[0]->get_Pos(WorldMap_Y),
+		PLAYER_ID,
+		player[0]->get_PlayerSymbolic());
+	//drawMonster
+	for (int i = 0; i < MAX_NUMBER_OF_MONSTER; i++)
+	{
+		Map[MAP_ID]->drawObjInMap(monster[i]->get_Pos(WorldMap_X),
+			monster[i]->get_Pos(WorldMap_Y),
+			i,
+			monster[i]->get_MonsterSymbolic());
+	}
 
 }
 
@@ -520,4 +487,32 @@ void printPlayerStatus(bool start)
 		std::cout << player[0]->get_AtkMin() << " - " << player[0]->get_AtkMax();
 	}
 
+}
+
+void printMonsterStatus(bool start)
+{
+	gotoxy(MONSTER_STATUS_POS, Map[MAP_ID]->getEndPosY());
+	std::cout << "HIT MONSTER ID " << Map[MAP_ID]->getOldObj();// monster[Map[MAP_ID]->getOldObj()]->printType();
+	gotoxy(MONSTER_STATUS_POS, Map[MAP_ID]->getEndPosY() + 1);
+	std::cout << "                                       ";
+	gotoxy(MONSTER_STATUS_POS, Map[MAP_ID]->getEndPosY() + 1);
+	std::cout << "HP " << monster[Map[MAP_ID]->getOldObj()]->get_HP();
+	gotoxy(MONSTER_STATUS_POS, Map[MAP_ID]->getEndPosY() + 2);
+	std::cout << "                                       ";
+	if (start == false)
+	{
+		gotoxy(MONSTER_STATUS_POS, Map[MAP_ID]->getEndPosY() + 2);
+		std::cout << "ATK " << monster[Map[MAP_ID]->getOldObj()]->get_atkLast();
+	}
+
+}
+
+void deleteMonsterStatus()
+{
+	gotoxy(MONSTER_STATUS_POS, Map[MAP_ID]->getEndPosY());
+	std::cout << "                                       ";
+	gotoxy(MONSTER_STATUS_POS, Map[MAP_ID]->getEndPosY()+1);
+	std::cout << "                                       ";
+	gotoxy(MONSTER_STATUS_POS, Map[MAP_ID]->getEndPosY()+2);
+	std::cout << "                                       ";
 }

@@ -78,3 +78,13 @@ int Player::get_AtkMax()
 {
 	return atkMax;
 }
+
+int Player::getDamaged(int damage)
+{
+	hp -= damage;
+	if (hp < 0)
+	{
+		hp = 0;
+	}
+	return hp;
+}

@@ -8,5 +8,6 @@ class zombie :
 public:
 	zombie();
 	virtual ~zombie();
+	void printType();
 };
 #endif

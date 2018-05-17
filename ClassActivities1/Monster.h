@@ -16,6 +16,9 @@ public:
 	void set_Atk(int AttackDamage, int swing);
 	int get_Atk();
 	int get_criticalHit();
+	//monsterGetDamaged(int damage)
+	//input damage
+	//return hp
 	int monsterGetDamaged(int damage);
 	void set_MonsterType(int Type);
 	int get_MonsterType();
@@ -24,6 +27,8 @@ public:
 	void set_Pos(int x, int y);
 	int get_Pos(int xy);
 	void printPos();
+	virtual void printType();
+	int get_atkLast();
 private:
 	static const int X = 0;
 	static const int Y = 1;

@@ -20,3 +20,8 @@ Orc::~Orc()
 {
 
 }
+
+void Orc::printType()
+{
+	std::cout << "orc";
+}

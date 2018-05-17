@@ -9,5 +9,6 @@ class Orc :
 public:
 	Orc();
 	virtual ~Orc();
+	void printType();
 };
 #endif
