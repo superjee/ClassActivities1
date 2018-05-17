@@ -19,6 +19,8 @@ public:
 	int monsterGetDamaged(int damage);
 	void set_MonsterType(int Type);
 	int get_MonsterType();
+	void set_MonsterSymbolic(int symbolic);
+	int get_MonsterSymbolic();
 	void set_Pos(int x, int y);
 	int get_Pos(int xy);
 	void printPos();
@@ -33,7 +35,7 @@ private:
 	int atkMin = -1;
 	int atkLast = -1;
 	int criticalMultiplier = 2;
-
+	int monsterSymbolic = 0;
 	int monsterType = -1;
 	//Monster position
 	int pos_X = -1;

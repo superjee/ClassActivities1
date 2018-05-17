@@ -16,7 +16,7 @@ Monster::~Monster()
 
 void Monster::initiation(int type,int index, std::vector<std::shared_ptr<Monster>> monster)
 {
-	std::cout << "Monster index : " << index << " ";
+	//std::cout << "Monster index : " << index << " ";
 	switch (type) {
 	case 1:
 		*monster[index] = zombie();
@@ -27,7 +27,7 @@ void Monster::initiation(int type,int index, std::vector<std::shared_ptr<Monster
 	default:
 		std::cout << "error Monster::init >>> type not match" << std::endl;
 	}
-	std::cout << "Attack = " << monster[index]->get_Atk() << " ";
+	//std::cout << "Attack = " << monster[index]->get_Atk() << " ";
 }
 
 void Monster::AddDamageToPlayer()
@@ -86,6 +86,16 @@ void Monster::set_MonsterType(int Type)
 int Monster::get_MonsterType()
 {
 	return monsterType;
+}
+
+void Monster::set_MonsterSymbolic(int symbolic)
+{
+	monsterSymbolic = symbolic;
+}
+
+int Monster::get_MonsterSymbolic()
+{
+	return monsterSymbolic;
 }
 
 void Monster::set_Pos(int x, int y)
