@@ -1,6 +1,4 @@
 #include "Monster.h"
-#include "zombie.h"
-#include "Orc.h"
 #include <iostream>
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
@@ -19,10 +17,12 @@ void Monster::initiation(int type,int index, std::vector<std::shared_ptr<Monster
 	//std::cout << "Monster index : " << index << " ";
 	switch (type) {
 	case 1:
-		*monster[index] = zombie();
+		//*monster[index] = zombie();
+		//monster.push_back(std::make_shared<zombie>());
 		break;
 	case 2:
-		*monster[index] = Orc();
+		//*monster[index] = Orc();
+		//monster.push_back(std::make_shared<Orc>());
 		break;
 	default:
 		std::cout << "error Monster::init >>> type not match" << std::endl;

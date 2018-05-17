@@ -45,5 +45,8 @@ private:
 	//Monster position
 	int pos_X = -1;
 	int pos_Y = -1;
+
 };
+#include "zombie.h"
+#include "Orc.h"
 #endif

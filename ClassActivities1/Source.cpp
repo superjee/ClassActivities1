@@ -349,14 +349,19 @@ void initGame(bool start)
 	printPlayerStatus(true);
 
 	//ADD Monster
-	if (start)for (int i = 0; i < MAX_NUMBER_OF_MONSTER; i++)
-	{
-		monster.push_back(std::make_shared<Monster>());
-	}
 	for (int i = 0; i < MAX_NUMBER_OF_MONSTER; i++)
 	{
 		ran = RandomTypeMonster;
-		monster[i]->initiation(ran, i, monster);
+		switch (ran) {
+		case 1:
+			monster.push_back(std::make_shared<zombie>());
+			break;
+		case 2:
+			monster.push_back(std::make_shared<Orc>());
+			break;
+		default:
+			std::cout << "error Monster::init >>> type not match" << std::endl;
+		}
 		do {
 			ranX = rand() % Map[MAP_ID]->getLength(WorldMap_X);
 			ranY = rand() % Map[MAP_ID]->getLength(WorldMap_Y);
@@ -492,7 +497,7 @@ void printPlayerStatus(bool start)
 void printMonsterStatus(bool start)
 {
 	gotoxy(MONSTER_STATUS_POS, Map[MAP_ID]->getEndPosY());
-	std::cout << "HIT MONSTER ID " << Map[MAP_ID]->getOldObj();// monster[Map[MAP_ID]->getOldObj()]->printType();
+	std::cout << "HIT MONSTER ID " << Map[MAP_ID]->getOldObj() << "  "; monster[Map[MAP_ID]->getOldObj()]->printType();
 	gotoxy(MONSTER_STATUS_POS, Map[MAP_ID]->getEndPosY() + 1);
 	std::cout << "                                       ";
 	gotoxy(MONSTER_STATUS_POS, Map[MAP_ID]->getEndPosY() + 1);
