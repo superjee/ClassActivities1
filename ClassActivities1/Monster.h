@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include "ReadInFo_Monster.h"
 #ifndef Monster_HPP
 #define Monster_HPP
 class Monster
@@ -9,7 +10,7 @@ class Monster
 public:
 	Monster();
 	~Monster();
-	//void initiation(int type,int index, std::vector<std::shared_ptr<Monster>> monster);
+	virtual void initiation(shared_ptr<ReadInFo_Monster> _ReadInFo_Monster);//(ReadInFo_Monster _ReadInFo_Monster);
 	void AddDamageToPlayer();
 	void set_HP(int);
 	int get_HP();

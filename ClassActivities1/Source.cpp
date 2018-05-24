@@ -11,6 +11,7 @@
 #include "Monster.h"
 #include "Player.h"
 #include "WorldMap.h"
+#include "ReadInFo_Monster.h"
 
 #define MAX_NUMBER_OF_MONSTER 100
 #define MAX_TYPE_OF_MONSTER 2
@@ -184,8 +185,23 @@ void updateGame()
 
 int main()
 {	
+	
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	initGame();
+
+	//LoadData
+	std::vector<std::shared_ptr<ReadInFo_Monster>> readInFo_Monster;
+	readInFo_Monster.push_back(std::make_shared<ReadInFo_Monster>());
+
+
+	//test
+	monster.push_back(std::make_shared<zombie>());
+	monster[0]->initiation(readInFo_Monster[0]);
+
+	getchar();
+	clearScreen();
+
+
+	//initGame();
 	while (!QuitGame)
 	{
 		keyboardInput();
