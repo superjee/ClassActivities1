@@ -18,7 +18,9 @@ public:
 	int getEndPosY();
 	void setOldObj(int inputID);
 	int getOldObj();
-	
+
+	WorldMap(const WorldMap& other) = default;
+	WorldMap& operator= (WorldMap& other) = default;
 
 	enum objInMap { OBJ_empty = -1, OBJ_BATTLE = 15 };
 	enum symbolic { SYM_empty, SYM_ZOMBIE = 11, SYM_ORC };

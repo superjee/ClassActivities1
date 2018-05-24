@@ -6,8 +6,8 @@ void gotoxyWM(int x, int y)
 	static HANDLE hStdout = NULL;
 	COORD coord;
 
-	coord.X = x;
-	coord.Y = y;
+	coord.X = (short)x;
+	coord.Y = (short)y;
 
 	if (!hStdout)
 	{

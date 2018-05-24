@@ -12,7 +12,7 @@ Monster::~Monster()
 {
 }
 
-void Monster::initiation(int type,int index, std::vector<std::shared_ptr<Monster>> monster)
+/*void Monster::initiation(int type,int index, std::vector<std::shared_ptr<Monster>> monster)
 {
 	//std::cout << "Monster index : " << index << " ";
 	switch (type) {
@@ -28,7 +28,7 @@ void Monster::initiation(int type,int index, std::vector<std::shared_ptr<Monster
 		std::cout << "error Monster::init >>> type not match" << std::endl;
 	}
 	//std::cout << "Attack = " << monster[index]->get_Atk() << " ";
-}
+}*/
 
 void Monster::AddDamageToPlayer()
 {

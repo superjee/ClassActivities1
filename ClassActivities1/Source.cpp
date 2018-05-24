@@ -133,10 +133,10 @@ void updateGame()
 {
 	startGame++;
 	//clearScreen();
-	gotoxy(47, 0);
-	std::cout << "       ";
-	gotoxy(34, 0);
-	std::cout << "TIME : " << startGame << " | "<< KB_code;
+	//gotoxy(47, 0);
+	//std::cout << "       ";
+	//gotoxy(34, 0);
+	//std::cout << "TIME : " << startGame << " | "<< KB_code;
 
 	if (isInput)
 	{
@@ -200,8 +200,8 @@ void gotoxy(int x, int y)
 	static HANDLE hStdout = NULL;
 	COORD coord;
 
-	coord.X = x;
-	coord.Y = y;
+	coord.X = (short)x;
+	coord.Y = (short)y;
 
 	if (!hStdout)
 	{
@@ -333,7 +333,7 @@ void printStartGame()
 void initGame(bool start)
 {
 	startGame = 0;
-	if (start)srand(time(NULL));
+	if (start)srand((unsigned int)time(NULL));
 	if (start)Map.push_back(new WorldMap());
 	Map[MAP_ID]->initiation();
 

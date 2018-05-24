@@ -9,7 +9,7 @@ class Monster
 public:
 	Monster();
 	~Monster();
-	void initiation(int type,int index, std::vector<std::shared_ptr<Monster>> monster);
+	//void initiation(int type,int index, std::vector<std::shared_ptr<Monster>> monster);
 	void AddDamageToPlayer();
 	void set_HP(int);
 	int get_HP();
