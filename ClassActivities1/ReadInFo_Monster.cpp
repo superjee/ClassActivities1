@@ -38,7 +38,7 @@ ReadInFo_Monster::ReadInFo_Monster()
 	else cout << "Unable to open file";
 
 
-	for (int i = 0; i < markTypeIndex.size(); i++)
+	/*for (int i = 0; i < markTypeIndex.size(); i++)
 	{
 		cout << "markTypeIndex " << i << " :  " << markTypeIndex[i] << endl;
 	}
@@ -56,7 +56,7 @@ ReadInFo_Monster::ReadInFo_Monster()
 	}
 	cout << endl << allinfo;
 	cout << endl;
-	cout << endl;
+	cout << endl;*/
 }
 
 
@@ -69,4 +69,9 @@ string ReadInFo_Monster::get_InFo_Monster(int type, int variance,int infoNumber)
 {
 	string output = useinfo[(markTypeIndex[type]* NUMBER_OF_INFO)+ (variance*NUMBER_OF_INFO)+ infoNumber];
 	return output;
+}
+
+int ReadInFo_Monster::get_MaxVariance(int type)
+{
+	return markTypeEnd[type] - markTypeIndex[type];
 }

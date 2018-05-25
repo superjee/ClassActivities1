@@ -12,6 +12,7 @@
 #include "Player.h"
 #include "WorldMap.h"
 #include "ReadInFo_Monster.h"
+#include "SpawnPoint.h"
 
 #define MAX_NUMBER_OF_MONSTER 100
 #define MAX_TYPE_OF_MONSTER 2
@@ -32,12 +33,16 @@
 #define START_HP 500
 #define START_ATK 75
 #define START_SWING 7
+const int INFO_MONSTER_ID = 0;
 
 #define MONSTER_STATUS_POS 40
 
 std::vector<WorldMap*> Map;
-std::vector<std::shared_ptr<Monster>> monster;
 std::vector<std::shared_ptr<Player>> player;
+std::vector<std::shared_ptr<ReadInFo_Monster>> readInFo_Monster;
+std::vector<std::shared_ptr<SpawnPoint>> spawnPoint;
+std::vector<std::shared_ptr<Monster>> monster;
+
 
 int ran = -1;
 int ranX = -1;
@@ -185,28 +190,23 @@ void updateGame()
 
 int main()
 {	
-	
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
 	//LoadData
-	std::vector<std::shared_ptr<ReadInFo_Monster>> readInFo_Monster;
 	readInFo_Monster.push_back(std::make_shared<ReadInFo_Monster>());
 
+	//SetSpawn
+	spawnPoint.push_back(make_shared<SpawnTo<Monster>>());
+	spawnPoint.push_back(make_shared<SpawnTo<zombie>>());
+	spawnPoint.push_back(make_shared<SpawnTo<Orc>>());
 
-	//test
-	monster.push_back(std::make_shared<zombie>());
-	monster[0]->initiation(readInFo_Monster[0]);
-
-	getchar();
-	clearScreen();
-
-
-	//initGame();
+	initGame();
 	while (!QuitGame)
 	{
 		keyboardInput();
 		updateGame();
 	}
+
 	delete Map[MAP_ID];
 	return 0;
 }
@@ -369,11 +369,15 @@ void initGame(bool start)
 	{
 		ran = RandomTypeMonster;
 		switch (ran) {
-		case 1:
-			monster.push_back(std::make_shared<zombie>());
+		case df_mon::Mon_ZOMBIE:
+			ran = rand() % readInFo_Monster[INFO_MONSTER_ID]->get_MaxVariance(df_mon::Mon_ZOMBIE);
+			monster.push_back(spawnPoint[df_mon::Mon_ZOMBIE]->spawn(ran));
+			monster[i]->initiation(readInFo_Monster[INFO_MONSTER_ID]);
 			break;
-		case 2:
-			monster.push_back(std::make_shared<Orc>());
+		case df_mon::Mon_ORC:
+			ran = rand() % readInFo_Monster[INFO_MONSTER_ID]->get_MaxVariance(df_mon::Mon_ORC);
+			monster.push_back(spawnPoint[df_mon::Mon_ORC]->spawn(ran));
+			monster[i]->initiation(readInFo_Monster[INFO_MONSTER_ID]);
 			break;
 		default:
 			std::cout << "error Monster::init >>> type not match" << std::endl;

@@ -14,14 +14,19 @@ class ReadInFo_Monster final
 public:
 	ReadInFo_Monster();
 	~ReadInFo_Monster();
+
 	//get_InFo_Monster(int type,int variance, int infoNumber)
 	//infoNumber 0 = Name
-	//infoNumber 1 = HP
-	//infoNumber 2 = Attack
-	//infoNumber 3 = Attack_Swing
+	//infoNumber 1 = Symbolic
+	//infoNumber 2 = HP
+	//infoNumber 3 = Attack
+	//infoNumber 4 = Attack_Swing
 	string get_InFo_Monster(int type,int variance, int infoNumber);
+
+	int get_MaxVariance(int type);
+
 private:
-	static const int NUMBER_OF_INFO = 4;
+	static const int NUMBER_OF_INFO = 5;
 	string line;
 	string newMonster = "NEW";
 	string endMonster = "END";

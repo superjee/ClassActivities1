@@ -7,8 +7,7 @@ class zombie :
 {
 public:
 	zombie();
+	zombie(int variance);
 	virtual ~zombie();
-	void printType();
-	void initiation(shared_ptr<ReadInFo_Monster> _ReadInFo_Monster);
 };
 #endif

@@ -8,13 +8,26 @@
 Monster::Monster()
 {
 }
+Monster::Monster(int variance)
+{
+	monsterVariance = variance;
+}
 Monster::~Monster()
 {
 }
 
 void Monster::initiation(shared_ptr<ReadInFo_Monster> _ReadInFo_Monster)
 {
-	std::cout << "ReadInFo_Monster >> From >> Monster Class";
+	string info_name = _ReadInFo_Monster->get_InFo_Monster(monsterType, monsterVariance, INFO_NAME);
+	int info_symbolic = atoi(_ReadInFo_Monster->get_InFo_Monster(monsterType, monsterVariance, INFO_SYMBOLIC).c_str());
+	int info_hp = atoi(_ReadInFo_Monster->get_InFo_Monster(monsterType, monsterVariance, INFO_HP).c_str());
+	int info_attack = atoi(_ReadInFo_Monster->get_InFo_Monster(monsterType, monsterVariance, INFO_ATTACK).c_str());
+	int info_attack_swing = atoi(_ReadInFo_Monster->get_InFo_Monster(monsterType, monsterVariance, INFO_ATTACK_SWING).c_str());
+
+	set_name(info_name);
+	set_MonsterSymbolic(info_symbolic);
+	set_HP(info_hp);
+	set_Atk(info_attack, info_attack_swing);
 }
 
 void Monster::AddDamageToPlayer()
@@ -80,6 +93,16 @@ int Monster::get_MonsterType()
 	return monsterType;
 }
 
+void Monster::set_MonsterVariance(int variance)
+{
+	monsterVariance = variance;
+}
+
+int Monster::get_MonsterVariance()
+{
+	return monsterVariance;
+}
+
 void Monster::set_MonsterSymbolic(int symbolic)
 {
 	monsterSymbolic = symbolic;
@@ -88,6 +111,16 @@ void Monster::set_MonsterSymbolic(int symbolic)
 int Monster::get_MonsterSymbolic()
 {
 	return monsterSymbolic;
+}
+
+void Monster::set_name(string nametext)
+{
+	name = nametext;
+}
+
+string Monster::get_name()
+{
+	return name;
 }
 
 void Monster::set_Pos(int x, int y)
@@ -117,7 +150,7 @@ void Monster::printPos()
 
 void Monster::printType()
 {
-	std::cout << "   *Type Error*  ";
+	std::cout << get_name();
 }
 
 int Monster::get_atkLast()

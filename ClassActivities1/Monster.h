@@ -1,16 +1,18 @@
 #pragma once
+#ifndef Monster_HPP
+#define Monster_HPP
 #include <string>
 #include <vector>
 #include <memory>
 #include "ReadInFo_Monster.h"
-#ifndef Monster_HPP
-#define Monster_HPP
+#include "Define_Monster.h"
 class Monster
 {
 public:
 	Monster();
+	Monster(int variance);
 	~Monster();
-	virtual void initiation(shared_ptr<ReadInFo_Monster> _ReadInFo_Monster);//(ReadInFo_Monster _ReadInFo_Monster);
+	void initiation(shared_ptr<ReadInFo_Monster> _ReadInFo_Monster);//(ReadInFo_Monster _ReadInFo_Monster);virtual 
 	void AddDamageToPlayer();
 	void set_HP(int);
 	int get_HP();
@@ -23,17 +25,21 @@ public:
 	int monsterGetDamaged(int damage);
 	void set_MonsterType(int Type);
 	int get_MonsterType();
+	void set_MonsterVariance(int variance);
+	int get_MonsterVariance();
 	void set_MonsterSymbolic(int symbolic);
 	int get_MonsterSymbolic();
+	void set_name(string nametext);
+	string get_name();
 	void set_Pos(int x, int y);
 	int get_Pos(int xy);
 	void printPos();
-	virtual void printType();
+    void printType();
 	int get_atkLast();
 private:
 	static const int X = 0;
 	static const int Y = 1;
-
+	string name = "UN_KNOW";
 	int hp = -1;
 	int atk = -1;
 	int atkSwing = -1;
@@ -43,10 +49,16 @@ private:
 	int criticalMultiplier = 2;
 	int monsterSymbolic = 0;
 	int monsterType = -1;
+	int monsterVariance = -1;
 	//Monster position
 	int pos_X = -1;
 	int pos_Y = -1;
-
+protected:
+	static const int INFO_NAME = 0;
+	static const int INFO_SYMBOLIC = 1;
+	static const int INFO_HP = 2;
+	static const int INFO_ATTACK = 3;
+	static const int INFO_ATTACK_SWING = 4;
 };
 #include "zombie.h"
 #include "Orc.h"

@@ -1,9 +1,9 @@
 NEW
-zombie0,1,2,3
-zombie_elder4,5,6,7
-zombie_warrior8,9,10,11
+zombie,11,100,10,3
+zombie_elder,11,600,70,5
+zombie_warrior,11,300,25,5
 END
 NEW
-orc12,13,14,15
-orc_warrior16,17,18,19
+orc,12,200,15,3
+orc_warrior,12,1000,100,7
 END

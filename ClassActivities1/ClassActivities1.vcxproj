@@ -116,14 +116,17 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ReadInFo_Monster.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="SpawnPoint.cpp" />
     <ClCompile Include="WorldMap.cpp" />
     <ClCompile Include="zombie.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Define_Monster.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="Orc.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ReadInFo_Monster.h" />
+    <ClInclude Include="SpawnPoint.h" />
     <ClInclude Include="WorldMap.h" />
     <ClInclude Include="zombie.h" />
   </ItemGroup>

@@ -8,7 +8,8 @@ class Orc :
 {
 public:
 	Orc();
+	Orc(int variance);
 	virtual ~Orc();
-	void printType();
+
 };
 #endif
