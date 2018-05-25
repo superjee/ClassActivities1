@@ -157,3 +157,12 @@ int Monster::get_atkLast()
 {
 	return atkLast;
 }
+
+void Monster::monsters_stronger(int percent)
+{
+	int currentHP = hp;
+	currentHP *= percent;
+	int addHP = currentHP / 100;
+	hp += addHP;
+
+}

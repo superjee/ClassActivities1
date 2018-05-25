@@ -36,6 +36,8 @@ public:
 	void printPos();
     void printType();
 	int get_atkLast();
+
+	void monsters_stronger(int percent = 1);
 private:
 	static const int X = 0;
 	static const int Y = 1;

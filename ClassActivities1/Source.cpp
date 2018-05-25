@@ -43,7 +43,6 @@ std::vector<std::shared_ptr<ReadInFo_Monster>> readInFo_Monster;
 std::vector<std::shared_ptr<SpawnPoint>> spawnPoint;
 std::vector<std::shared_ptr<Monster>> monster;
 
-
 int ran = -1;
 int ranX = -1;
 int ranY = -1;
@@ -54,6 +53,11 @@ bool isInput = false;
 int KB_code = 0;
 bool isBattle = false;
 int battleTick = 0;
+
+// time
+int day = 1;
+int hour = 0;
+
 // function prototypes
 void gotoxy(int x, int y);
 void moveUP();
@@ -68,6 +72,8 @@ void keyboardInput();
 void initGame(bool start = true);
 void printMonsterStatus(bool start = false);
 void deleteMonsterStatus();
+void monsterGetStronger();
+
 
 void clearScreen()
 {
@@ -138,11 +144,23 @@ bool quitButtonPressed()
 void updateGame()
 {
 	startGame++;
-	//clearScreen();
-	//gotoxy(47, 0);
-	//std::cout << "       ";
-	//gotoxy(34, 0);
-	//std::cout << "TIME : " << startGame << " | "<< KB_code;
+
+	gotoxy(45, 0);
+	std::cout << "       ";
+	gotoxy(34, 0);
+	std::cout << "Day : " << day << " | "<< hour;//KB_code;
+
+	if (startGame % 10 == 0) // OneGameStep
+	{
+		hour++;
+		if (hour >= 24)
+		{
+			hour = 0;
+			day++;
+			monsterGetStronger();
+		}
+	}
+
 
 	if (isInput)
 	{
@@ -191,15 +209,6 @@ void updateGame()
 int main()
 {	
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-
-	//LoadData
-	readInFo_Monster.push_back(std::make_shared<ReadInFo_Monster>());
-
-	//SetSpawn
-	spawnPoint.push_back(make_shared<SpawnTo<Monster>>());
-	spawnPoint.push_back(make_shared<SpawnTo<zombie>>());
-	spawnPoint.push_back(make_shared<SpawnTo<Orc>>());
-
 	initGame();
 	while (!QuitGame)
 	{
@@ -209,6 +218,17 @@ int main()
 
 	delete Map[MAP_ID];
 	return 0;
+}
+
+void monsterGetStronger()
+{
+	for (int i = 0; i < MAX_NUMBER_OF_MONSTER; i++)
+	{
+		if (monster[i]->get_HP() > 0)
+		{
+			monster[i]->monsters_stronger();
+		}
+	}
 }
 
 void gotoxy(int x, int y)
@@ -339,8 +359,10 @@ void printStartGame()
 	std::cout << "/                                                                             /" << std::endl;
 	std::cout << "/                              Links To Fantasy                               /" << std::endl;
 	std::cout << "/                             by Tanapat Yatana                               /" << std::endl;
-	std::cout << "/                Zombie base Attack  : 7 - 13  (10,3)  HP : 100               /" << std::endl;
-	std::cout << "/                Orc    base Attack  : 23 - 37 (30,7)  HP : 500               /" << std::endl;
+	//std::cout << "/                Zombie base Attack  : 7 - 13  (10,3)  HP : 100               /" << std::endl;
+	//std::cout << "/                Orc    base Attack  : 23 - 37 (30,7)  HP : 500               /" << std::endl;
+	std::cout << "/                                                                             /" << std::endl;
+	std::cout << "/                                                                             /" << std::endl;
 	std::cout << "/                                                                             /" << std::endl;
 	std::cout << "///////////////////////////////////////////////////////////////////////////////" << std::endl;
 	std::cout << std::endl;
@@ -351,6 +373,18 @@ void initGame(bool start)
 	startGame = 0;
 	if (start)srand((unsigned int)time(NULL));
 	if (start)Map.push_back(new WorldMap());
+
+	if (start){
+	//LoadData
+	readInFo_Monster.push_back(std::make_shared<ReadInFo_Monster>());
+
+	//SetSpawn
+	spawnPoint.push_back(make_shared<SpawnTo<Monster>>());
+	spawnPoint.push_back(make_shared<SpawnTo<zombie>>());
+	spawnPoint.push_back(make_shared<SpawnTo<Orc>>());
+	}
+
+
 	Map[MAP_ID]->initiation();
 
 	printStartGame();
