@@ -148,7 +148,7 @@ void my_game::GamePlay::loadData()
 void my_game::GamePlay::declareVariableOneTime()
 {
 	//Map
-	Map.push_back(new WorldMap());
+	Map.push_back(make_shared<WorldMap>());//new WorldMap()
 	//SpawnPoint
 	spawnPoint.push_back(make_shared<SpawnTo<Monster>>());
 	spawnPoint.push_back(make_shared<SpawnTo<zombie>>());

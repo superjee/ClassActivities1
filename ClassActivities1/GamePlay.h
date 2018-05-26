@@ -45,7 +45,7 @@ const int INFO_MONSTER_ID = 0;
 	public:
 		GamePlay();
 		~GamePlay();
-		std::vector<WorldMap*> Map;
+		std::vector<std::shared_ptr<WorldMap>> Map;
 		std::vector<std::shared_ptr<Player>> player;
 		std::vector<std::shared_ptr<ReadInFo_Monster>> readInFo_Monster;
 		std::vector<std::shared_ptr<SpawnPoint>> spawnPoint;
