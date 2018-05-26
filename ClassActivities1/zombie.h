@@ -9,5 +9,7 @@ public:
 	zombie();
 	zombie(int variance);
 	virtual ~zombie();
+	zombie(const zombie& other) = default;
+	zombie& operator= (zombie& other) = default;
 };
 #endif

@@ -4,7 +4,7 @@ ReadInFo_Monster::ReadInFo_Monster()
 {
 	markTypeIndex.push_back(0);
 	markTypeEnd.push_back(0);
-	int type = 0;
+	int typeIndex = 0;
 	ifstream myfile("monster_conf.csv");
 	if (myfile.is_open())
 	{
@@ -12,17 +12,17 @@ ReadInFo_Monster::ReadInFo_Monster()
 		{
 			if (line == newMonster)
 			{
-				markTypeIndex.push_back(type);
+				markTypeIndex.push_back(typeIndex);
 			}
 			else if (line == endMonster)
 			{
-				markTypeEnd.push_back(type);
+				markTypeEnd.push_back(typeIndex);
 			}
 			else
 			{
 				allinfo += line +",";
 				info.push_back(line);
-				++type;
+				++typeIndex;
 			}	
 		}
 		myfile.close();
@@ -32,12 +32,8 @@ ReadInFo_Monster::ReadInFo_Monster()
 		while (getline(ss, token, ',')) {
 			useinfo.push_back(token);
 		}
-
-
 	}
 	else cout << "Unable to open file";
-
-
 	/*for (int i = 0; i < markTypeIndex.size(); i++)
 	{
 		cout << "markTypeIndex " << i << " :  " << markTypeIndex[i] << endl;

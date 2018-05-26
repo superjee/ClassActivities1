@@ -215,7 +215,7 @@ int main()
 		keyboardInput();
 		updateGame();
 	}
-
+	//getchar();
 	delete Map[MAP_ID];
 	return 0;
 }
@@ -377,7 +377,7 @@ void initGame(bool start)
 	if (start){
 	//LoadData
 	readInFo_Monster.push_back(std::make_shared<ReadInFo_Monster>());
-
+	
 	//SetSpawn
 	spawnPoint.push_back(make_shared<SpawnTo<Monster>>());
 	spawnPoint.push_back(make_shared<SpawnTo<zombie>>());
@@ -438,7 +438,7 @@ void initGame(bool start)
 			i,
 			monster[i]->get_MonsterSymbolic());
 	}
-
+	
 }
 
 void playerInput()
