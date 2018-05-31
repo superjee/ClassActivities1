@@ -2,8 +2,8 @@
 using namespace my_game;
 GamePlay::GamePlay()
 {
+	initGame();
 }
-
 
 GamePlay::~GamePlay()
 {
@@ -27,20 +27,20 @@ void my_game::GamePlay::clearScreen()
 		csbi.dwSize.X * csbi.dwSize.Y,
 		startCoords,
 		&dummy);
-	gotoxy(0, 0);
+	pUtility.GoToXY(0,0);
 }
 
 void my_game::GamePlay::updateGame()
 {
-	startGame++;
+	gametime++;
 
-	gotoxy(45, 0);
+	pUtility.GoToXY(45, 0);
 	std::cout << "       ";
-	gotoxy(34, 0);
+	pUtility.GoToXY(34, 0);
 	std::cout << "Day : " << day << " | " << hour;
 
 	// OneGameStep
-	if (startGame % 10 == 0) 
+	if (gametime % 10 == 0) 
 	{
 		hour++;
 		if (hour >= 24)
@@ -92,14 +92,12 @@ void my_game::GamePlay::updateGame()
 	}
 
 	Sleep(50);
-	KB_code = NULL;
 }
 
 void my_game::GamePlay::initGame(bool start)
 {
-	startGame = 0;
+	gametime = 0;
 	if (start) {
-		srand((unsigned int)time(NULL));
 		loadData();
 		declareVariableOneTime();
 	}
@@ -178,22 +176,6 @@ void my_game::GamePlay::drawGame()
 	}
 }
 
-void my_game::GamePlay::gotoxy(int x, int y)
-{
-	static HANDLE hStdout = NULL;
-	COORD coord;
-
-	coord.X = (short)x;
-	coord.Y = (short)y;
-
-	if (!hStdout)
-	{
-		hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
-	}
-
-	SetConsoleCursorPosition(hStdout, coord);
-}
-
 void my_game::GamePlay::printStartGame()
 {
 	std::cout << "/////////////                                                    //////////////" << std::endl;
@@ -213,37 +195,37 @@ void my_game::GamePlay::printPlayerStatus(bool start)
 {
 	int setX = 22;
 	int setY = Map[MAP_ID]->getEndPosY();
-	gotoxy(NULL, setY);
+	pUtility.GoToXY(NULL, setY);
 	if (!start)
 	{
-		gotoxy(setX, Map[MAP_ID]->getEndPosY());
+		pUtility.GoToXY(setX, Map[MAP_ID]->getEndPosY());
 		std::cout << "          ";
 	}
-	gotoxy(NULL, setY);
+	pUtility.GoToXY(NULL, setY);
 	if (start)
 		std::cout << "  " << static_cast<char>(player[0]->get_PlayerSymbolic()) << " Player Position ";
-	gotoxy(setX, setY);
+	pUtility.GoToXY(setX, setY);
 	std::cout << "(" << player[0]->get_Pos(WorldMap_X) << "," << player[0]->get_Pos(WorldMap_Y) << ")";
 
 	setY++;
-	gotoxy(NULL, setY);
+	pUtility.GoToXY(NULL, setY);
 	if (!start)
 	{
-		gotoxy(setX, setY);
+		pUtility.GoToXY(setX, setY);
 		std::cout << "          ";
 	}
-	gotoxy(NULL, setY);
+	pUtility.GoToXY(NULL, setY);
 	if (start)
 		std::cout << "  " << static_cast<char>(player[0]->get_PlayerSymbolic()) << " HP";
-	gotoxy(setX, setY);
+	pUtility.GoToXY(setX, setY);
 	std::cout << player[0]->get_HP();
 
 	setY++;
 	if (start)
 	{
-		gotoxy(NULL, setY);
+		pUtility.GoToXY(NULL, setY);
 		std::cout << "  " << static_cast<char>(player[0]->get_PlayerSymbolic()) << " ATK";
-		gotoxy(setX, setY);
+		pUtility.GoToXY(setX, setY);
 		std::cout << player[0]->get_AtkMin() << " - " << player[0]->get_AtkMax();
 	}
 
@@ -316,17 +298,17 @@ void my_game::GamePlay::playerMove(int currentX, int currentY, int nextX, int ne
 
 void my_game::GamePlay::printMonsterStatus(bool start)
 {
-	gotoxy(MONSTER_STATUS_POS, Map[MAP_ID]->getEndPosY());
+	pUtility.GoToXY(MONSTER_STATUS_POS, Map[MAP_ID]->getEndPosY());
 	std::cout << "HIT MONSTER ID " << Map[MAP_ID]->getOldObj() << "  "; monster[Map[MAP_ID]->getOldObj()]->printType();
-	gotoxy(MONSTER_STATUS_POS, Map[MAP_ID]->getEndPosY() + 1);
+	pUtility.GoToXY(MONSTER_STATUS_POS, Map[MAP_ID]->getEndPosY() + 1);
 	std::cout << "                                       ";
-	gotoxy(MONSTER_STATUS_POS, Map[MAP_ID]->getEndPosY() + 1);
+	pUtility.GoToXY(MONSTER_STATUS_POS, Map[MAP_ID]->getEndPosY() + 1);
 	std::cout << "HP " << monster[Map[MAP_ID]->getOldObj()]->get_HP();
-	gotoxy(MONSTER_STATUS_POS, Map[MAP_ID]->getEndPosY() + 2);
+	pUtility.GoToXY(MONSTER_STATUS_POS, Map[MAP_ID]->getEndPosY() + 2);
 	std::cout << "                                       ";
 	if (start == false)
 	{
-		gotoxy(MONSTER_STATUS_POS, Map[MAP_ID]->getEndPosY() + 2);
+		pUtility.GoToXY(MONSTER_STATUS_POS, Map[MAP_ID]->getEndPosY() + 2);
 		std::cout << "ATK " << monster[Map[MAP_ID]->getOldObj()]->get_atkLast();
 	}
 
@@ -334,10 +316,101 @@ void my_game::GamePlay::printMonsterStatus(bool start)
 
 void my_game::GamePlay::deleteMonsterStatus()
 {
-	gotoxy(MONSTER_STATUS_POS, Map[MAP_ID]->getEndPosY());
+	pUtility.GoToXY(MONSTER_STATUS_POS, Map[MAP_ID]->getEndPosY());
 	std::cout << "                                       ";
-	gotoxy(MONSTER_STATUS_POS, Map[MAP_ID]->getEndPosY() + 1);
+	pUtility.GoToXY(MONSTER_STATUS_POS, Map[MAP_ID]->getEndPosY() + 1);
 	std::cout << "                                       ";
-	gotoxy(MONSTER_STATUS_POS, Map[MAP_ID]->getEndPosY() + 2);
+	pUtility.GoToXY(MONSTER_STATUS_POS, Map[MAP_ID]->getEndPosY() + 2);
 	std::cout << "                                       ";
+}
+
+void my_game::GamePlay::moveUP()
+{
+	int currentX = player[0]->get_Pos(WorldMap_X);
+	int currentY = player[0]->get_Pos(WorldMap_Y);
+	int nextX = currentX;
+	int nextY = currentY - 1;
+	if (nextY < NULL)
+	{
+	nextY = currentY;
+	}
+	playerMove(currentX, currentY, nextX, nextY);
+}
+
+void my_game::GamePlay::moveDOWN()
+{
+	int currentX = player[0]->get_Pos(WorldMap_X);
+	int currentY = player[0]->get_Pos(WorldMap_Y);
+	int nextX = currentX;
+	int nextY = currentY + 1;
+	if (nextY >= Map[MAP_ID]->getLength(WorldMap_Y))
+	{
+	nextY = currentY;
+	}
+	playerMove(currentX, currentY, nextX, nextY);
+}
+
+void my_game::GamePlay::moveLEFT()
+{
+	int currentX = player[0]->get_Pos(WorldMap_X);
+	int currentY = player[0]->get_Pos(WorldMap_Y);
+	int nextX = currentX - 1;
+	int nextY = currentY;
+	if (nextX < NULL)
+	{
+	nextX = currentX;
+	}
+	playerMove(currentX, currentY, nextX, nextY);
+}
+
+void my_game::GamePlay::moveRIGHT()
+{
+	int currentX = player[0]->get_Pos(WorldMap_X);
+	int currentY = player[0]->get_Pos(WorldMap_Y);
+	int nextX = currentX + 1;
+	int nextY = currentY;
+	if (nextX >= Map[MAP_ID]->getLength(WorldMap_X))
+	{
+	nextX = currentX;
+	}
+	playerMove(currentX, currentY, nextX, nextY);
+}
+
+void my_game::GamePlay::getInput(int p_input)
+{
+	switch (p_input)
+	{
+	case KeyboardInput::KB_LEFT:
+		isInput = true;
+		moveLEFT();
+		break;
+	case KeyboardInput::KB_RIGHT:
+		isInput = true;
+		moveRIGHT();
+		break;
+	case KeyboardInput::KB_UP:
+		isInput = true;
+		moveUP();
+		break;
+	case KeyboardInput::KB_DOWN:
+		isInput = true;
+		moveDOWN();
+		break;
+	case KeyboardInput::KB_W:
+		isInput = true;
+		moveUP();
+		break;
+	case KeyboardInput::KB_A:
+		isInput = true;
+		moveLEFT();
+		break;
+	case KeyboardInput::KB_S:
+		isInput = true;
+		moveDOWN();
+		break;
+	case KeyboardInput::KB_D:
+		isInput = true;
+		moveRIGHT();
+		break;
+	}
 }

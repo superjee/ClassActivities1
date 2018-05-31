@@ -1,11 +1,11 @@
 #pragma once
-
 #define WorldMap_X 0
 #define WorldMap_Y 1
-
+#include "Utility.h"
 class WorldMap
 {
 public:
+	Utility pUtility;
 	WorldMap();
 	virtual ~WorldMap();
 	void initiation();

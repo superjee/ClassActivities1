@@ -1,21 +1,6 @@
 #include "WorldMap.h"
 #include <iostream>
 #include <windows.h>
-void gotoxyWM(int x, int y)
-{
-	static HANDLE hStdout = NULL;
-	COORD coord;
-
-	coord.X = (short)x;
-	coord.Y = (short)y;
-
-	if (!hStdout)
-	{
-		hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
-	}
-
-	SetConsoleCursorPosition(hStdout, coord);
-}
 
 WorldMap::WorldMap()
 {
@@ -61,7 +46,7 @@ void WorldMap::drawObjInMap(int x, int y, int Obj, int sym)
 {
 	int newX = (startPosX + 1) +x;
 	int newY = (startPosX + 1);
-	gotoxyWM(x + newX, y + newY);
+	pUtility.GoToXY(x + newX, y + newY);
 	if (Obj == OBJ_empty)
 	{
 		std::cout << " " << static_cast<char>(SYM_empty);;
@@ -81,21 +66,21 @@ void WorldMap::drawMapBox()
 {
 	int newX = startPosX;
 	int newY = startPosY;
-	gotoxyWM(newX, newY);
+	pUtility.GoToXY(newX, newY);
 	for (int loop = 0; loop < (X * 2) + 3; loop++)
 	{
 		std::cout << "=";
 	}
-	gotoxyWM(newX, newY +Y+1);
+	pUtility.GoToXY(newX, newY +Y+1);
 	for (int loop = 0; loop < (X * 2) + 3; loop++)
 	{
 		std::cout << "=";
 	}
 	for (int loop = 1; loop < Y+1; loop++)
 	{
-		gotoxyWM(newX, newY + loop);
+		pUtility.GoToXY(newX, newY + loop);
 		std::cout << "|";
-		gotoxyWM(newX + (X * 2) + 2, newY + loop);
+		pUtility.GoToXY(newX + (X * 2) + 2, newY + loop);
 		std::cout << "|";
 	}
 }

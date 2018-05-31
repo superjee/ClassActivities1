@@ -3,7 +3,10 @@
 #define _ENGINE_H
 
 #include <Windows.h>
+#include <memory>
 #include <iostream>
+#include "Utility.h"
+#include "GamePlay.h"
 
 enum EngineState
 {
@@ -15,7 +18,7 @@ enum EngineState
 	Destroying
 };
 
-class Engine
+class Engine final
 {
 public:
 	Engine();
@@ -23,13 +26,14 @@ public:
 	int runLoop();
 	static EngineState GetEngineState() { return m_EngingState; }
 
-private:
+	std::shared_ptr<Utility> pUtility;
+	std::shared_ptr<my_game::GamePlay> pGamePlay;
 
+private:
 	int intialize();
 	int draw();
 	int update();
 	int shutDown();
-
 
 	static EngineState m_EngingState;
 

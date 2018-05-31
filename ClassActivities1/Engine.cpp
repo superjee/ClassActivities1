@@ -2,6 +2,8 @@
 
 EngineState Engine::m_EngingState = EngineState::Invalid;
 
+int num = 0;
+
 Engine::Engine()
 {
 	m_EngingState = EngineState::Constructing;
@@ -22,7 +24,7 @@ int Engine::runLoop()
 	while (m_EngingState == EngineState::Running)
 	{
 		this->update();
-		this->draw();
+		//this->draw();
 	}
 
 	if (!this->shutDown())
@@ -35,6 +37,10 @@ int Engine::runLoop()
 int Engine::intialize()
 {
 	m_EngingState = EngineState::Initializing;
+	//
+	Engine::pUtility = std::make_shared<Utility>();
+	Engine::pGamePlay = std::make_shared<my_game::GamePlay>();
+
 	return true;
 }
 
@@ -45,7 +51,17 @@ int Engine::draw()
 
 int Engine::update()
 {
-	std::cout << "update" << std::endl;
+	int keyCode = pUtility->KeyboardInput();
+	if (keyCode == KeyboardInput::EXIT)
+	{
+		m_EngingState = EngineState::ShuttingDown;
+	}
+	else
+	{
+		Engine::pGamePlay->getInput(keyCode);
+	}
+	Engine::pGamePlay->updateGame();
+	
 
 	return true;
 }
