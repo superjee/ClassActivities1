@@ -9,14 +9,15 @@
 #include <crtdbg.h>
 #include <memory>
 
+#include "Engine.h"
 // function prototypes
 
-void moveUP();
+/*void moveUP();
 void moveDOWN();
 void moveLEFT();
 void moveRIGHT();
 
-void keyboardInput();
+void keyboardInput();*/
 
 int main()
 {	
@@ -29,7 +30,16 @@ int main()
 	}
 	//getchar();
 	delete Map[MAP_ID];*/
-	return 0;
+
+	//std::cout << GetTickCount()  << std::endl;
+
+	auto pEngine = std::make_shared<Engine>();
+
+
+	int result = pEngine->runLoop();
+
+
+	return result;
 }
 
 
