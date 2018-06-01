@@ -34,13 +34,13 @@ void my_game::GamePlay::updateGame()
 {
 	gametime++;
 
-	pUtility.GoToXY(45, 0);
-	std::cout << "       ";
 	pUtility.GoToXY(34, 0);
-	std::cout << "Day : " << day << " | " << hour;
+	std::cout << "        ";
+	pUtility.GoToXY(36, 0);
+	std::cout << day << " | " << hour;
 
 	// OneGameStep
-	if (gametime % 10 == 0) 
+	if (gametime % 20 == 0) 
 	{
 		hour++;
 		if (hour >= 24)
@@ -54,50 +54,76 @@ void my_game::GamePlay::updateGame()
 	if (isInput)
 	{
 		isInput = false;
+
+		tapGameEnd();
+
 		printPlayerStatus();
 	}
 
 	if (isBattle)
 	{
+		oneTimes = true;
+
+		tapGameStart();
+
 		battleTick++;
 		if (battleTick >= 10)
 		{
+			int speed = monster[Map[MAP_ID]->getOldObj()]->get_tapSpeed();
+			int frequency = monster[Map[MAP_ID]->getOldObj()]->get_tapFrequency();
+			//AddTapNote
+			ran = rand() % 4;
+			switch (ran) {
+			case direction::LEFT:
+				tapBattle_LEFT.push_back(make_shared<TapBattle>(ran, 0, speed, tapStartPosY + 28));
+				break;
+			case direction::UP:
+				tapBattle_UP.push_back(make_shared<TapBattle>(ran, 0, speed, tapStartPosY + 28));
+				break;
+			case direction::DOWN:
+				tapBattle_DOWN.push_back(make_shared<TapBattle>(ran, 0, speed, tapStartPosY + 28));
+				break;
+			case direction::RIGHT:
+				tapBattle_RIGHT.push_back(make_shared<TapBattle>(ran, 0, speed, tapStartPosY + 28));
+				break;
+			}
+
 			//Battle
-			battleTick = 0;
-			if (monster[Map[MAP_ID]->getOldObj()]->monsterGetDamaged(player[0]->get_Atk()) <= 0)
-			{
-				isBattle = false;
-				Map[MAP_ID]->setObjInMap(player[0]->get_Pos(WorldMap_X), player[0]->get_Pos(WorldMap_Y), PLAYER_ID);
-				Map[MAP_ID]->drawObjInMap(player[0]->get_Pos(WorldMap_X), player[0]->get_Pos(WorldMap_Y), PLAYER_ID, player[0]->get_PlayerSymbolic());
-				playerMove(player[0]->get_Pos(WorldMap_X), player[0]->get_Pos(WorldMap_Y),
-					player[0]->get_Pos(WorldMap_X), player[0]->get_Pos(WorldMap_Y));
+			ran = rand() % 5+1;
+			battleTick -= frequency*ran;
 
-
-			}
-			else if (player[0]->getDamaged(monster[Map[MAP_ID]->getOldObj()]->get_Atk()) <= 0)
-			{
-				//Game Over
-				isBattle = false;
-				clearScreen();
-				initGame(false);
-			}
 			printPlayerStatus();
 			printMonsterStatus();
 		}
 	}
 	else
 	{
-		battleTick = 0;
-		deleteMonsterStatus();
+		if (oneTimes)
+		{
+			oneTimes = false;
+			battleTick = 0;
+
+			tapGameEnd();
+
+			deleteMonsterStatus();
+			pUtility.GoToXY(MONSTER_STATUS_POS, Map[MAP_ID]->getEndPosY());
+			cout << "End Tap Battle";
+			//delete tap type (miss good cool perfect)
+			pUtility.GoToXY(67, 8);
+			std::cout << "       ";
+			pUtility.GoToXY(68, 9);
+			std::cout << "        ";
+		}
 	}
 
-	Sleep(50);
+	Sleep(25);
 }
 
 void my_game::GamePlay::initGame(bool start)
 {
 	gametime = 0;
 	if (start) {
+		srand((unsigned int)time(NULL));
 		loadData();
 		declareVariableOneTime();
 	}
@@ -182,13 +208,28 @@ void my_game::GamePlay::printStartGame()
 	std::cout << "/                                                                             /" << std::endl;
 	std::cout << "/                              Links To Fantasy                               /" << std::endl;
 	std::cout << "/                             by Tanapat Yatana                               /" << std::endl;
-	//std::cout << "/                Zombie base Attack  : 7 - 13  (10,3)  HP : 100               /" << std::endl;
-	//std::cout << "/                Orc    base Attack  : 23 - 37 (30,7)  HP : 500               /" << std::endl;
 	std::cout << "/                                                                             /" << std::endl;
-	std::cout << "/                                                                             /" << std::endl;
+	std::cout << "/                                 TapBattle                                   /" << std::endl;
 	std::cout << "/                                                                             /" << std::endl;
 	std::cout << "///////////////////////////////////////////////////////////////////////////////" << std::endl;
 	std::cout << std::endl;
+
+	pUtility.GoToXY(tapStartPosX, tapStartPosY);
+	std::cout << static_cast<char>(TapBattle::symbolic::LEFT);
+	pUtility.GoToXY(tapStartPosX+3, tapStartPosY);
+	std::cout << static_cast<char>(TapBattle::symbolic::UP);
+	pUtility.GoToXY(tapStartPosX+6, tapStartPosY);
+	std::cout << static_cast<char>(TapBattle::symbolic::DOWN);
+	pUtility.GoToXY(tapStartPosX+9, tapStartPosY);
+	std::cout << static_cast<char>(TapBattle::symbolic::RIGHT);
+
+
+	pUtility.GoToXY(tapStartPosX - 2, tapStartPosY + 1);
+	std::cout << ">            <";
+	pUtility.GoToXY(tapStartPosX-2, tapStartPosY + 2);
+	std::cout << "> ---------- <";
+	pUtility.GoToXY(tapStartPosX - 2, tapStartPosY + 3);
+	std::cout << ">            <";
 }
 
 void my_game::GamePlay::printPlayerStatus(bool start)
@@ -196,10 +237,10 @@ void my_game::GamePlay::printPlayerStatus(bool start)
 	int setX = 22;
 	int setY = Map[MAP_ID]->getEndPosY();
 	pUtility.GoToXY(NULL, setY);
-	if (!start)
+	if (start)
 	{
 		pUtility.GoToXY(setX, Map[MAP_ID]->getEndPosY());
-		std::cout << "          ";
+		std::cout << "           ";
 	}
 	pUtility.GoToXY(NULL, setY);
 	if (start)
@@ -209,7 +250,7 @@ void my_game::GamePlay::printPlayerStatus(bool start)
 
 	setY++;
 	pUtility.GoToXY(NULL, setY);
-	if (!start)
+	if (start)
 	{
 		pUtility.GoToXY(setX, setY);
 		std::cout << "          ";
@@ -381,20 +422,16 @@ void my_game::GamePlay::getInput(int p_input)
 	switch (p_input)
 	{
 	case KeyboardInput::KB_LEFT:
-		isInput = true;
-		moveLEFT();
+		tapKey(direction::LEFT);
 		break;
 	case KeyboardInput::KB_RIGHT:
-		isInput = true;
-		moveRIGHT();
+		tapKey(direction::RIGHT);
 		break;
 	case KeyboardInput::KB_UP:
-		isInput = true;
-		moveUP();
+		tapKey(direction::UP);
 		break;
 	case KeyboardInput::KB_DOWN:
-		isInput = true;
-		moveDOWN();
+		tapKey(direction::DOWN);
 		break;
 	case KeyboardInput::KB_W:
 		isInput = true;
@@ -413,4 +450,251 @@ void my_game::GamePlay::getInput(int p_input)
 		moveRIGHT();
 		break;
 	}
+}
+
+void my_game::GamePlay::playerTakeDamage()
+{
+	if (player[0]->getDamaged(monster[Map[MAP_ID]->getOldObj()]->get_Atk()) <= 0)
+	{
+		//Game Over
+		isBattle = false;
+		clearScreen();
+		initGame(false);
+	}
+}
+
+void my_game::GamePlay::monsterTakeDamage()
+{
+	if (monster[Map[MAP_ID]->getOldObj()]->monsterGetDamaged(player[0]->get_Atk()) <= 0)
+	{
+		isBattle = false;
+		Map[MAP_ID]->setObjInMap(player[0]->get_Pos(WorldMap_X), player[0]->get_Pos(WorldMap_Y), PLAYER_ID);
+		Map[MAP_ID]->drawObjInMap(player[0]->get_Pos(WorldMap_X), player[0]->get_Pos(WorldMap_Y), PLAYER_ID, player[0]->get_PlayerSymbolic());
+		playerMove(player[0]->get_Pos(WorldMap_X), player[0]->get_Pos(WorldMap_Y),
+			player[0]->get_Pos(WorldMap_X), player[0]->get_Pos(WorldMap_Y));
+	}
+}
+
+void my_game::GamePlay::tapGameUpdate(std::vector<std::shared_ptr<TapBattle>> &p_tapBattle)
+{
+	for (int i = 0; i < static_cast<int>(p_tapBattle.size()); i++)
+	{
+		//reset
+		pUtility.GoToXY(tapStartPosX + (p_tapBattle[i]->Getdirection()*tapDistance), p_tapBattle[i]->tapY);
+		if (p_tapBattle[i]->tapY == tapStartPosY + 2)
+		{
+			cout << "-";
+		}
+		else
+		{
+			cout << " ";
+		}
+		//update
+		p_tapBattle[i]->TapUpdate();
+
+		//miss
+		if (p_tapBattle[i]->tapY == tapStartPosY)
+		{
+			timeToShow = timeToShowInfoTap;
+			pUtility.GoToXY(67, 8);
+			std::cout << "       ";
+			pUtility.GoToXY(69, 8);
+			std::cout << "miss";
+			p_tapBattle.erase(p_tapBattle.begin());
+			i--;
+			playerTakeDamage();
+		}
+		else
+		{
+			pUtility.GoToXY(tapStartPosX + (p_tapBattle[i]->Getdirection()*tapDistance), p_tapBattle[i]->tapY);
+			cout << static_cast<char>(p_tapBattle[i]->GetSym());
+		}
+	}
+}
+
+void my_game::GamePlay::tapGameUpdateEnd(std::vector<std::shared_ptr<TapBattle>>& p_tapBattle)
+{
+	for (int i = 0; i < static_cast<int>(p_tapBattle.size()); i++)
+	{
+		tapDelete(p_tapBattle,i);
+	}
+}
+
+void my_game::GamePlay::tapGameStart()
+{
+	tapGameUpdate(tapBattle_LEFT);
+	tapGameUpdate(tapBattle_UP);
+	tapGameUpdate(tapBattle_DOWN);
+	tapGameUpdate(tapBattle_RIGHT);
+
+	timeToShow -= 1;
+	if (timeToShow <= 0)
+	{
+		timeToShow = timeToShowInfoTap;
+		pUtility.GoToXY(67, 8);
+		std::cout << "       ";
+		pUtility.GoToXY(68, 9);
+		std::cout << "        ";
+	}
+
+}
+
+void my_game::GamePlay::tapGameEnd()
+{
+	tapGameUpdateEnd(tapBattle_LEFT);
+	tapGameUpdateEnd(tapBattle_UP);
+	tapGameUpdateEnd(tapBattle_DOWN);
+	tapGameUpdateEnd(tapBattle_RIGHT);
+	pUtility.GoToXY(tapStartPosX - 2, tapStartPosY + 2);
+	std::cout << "> ---------- <";
+}
+
+void my_game::GamePlay::tapDelete(std::vector<std::shared_ptr<TapBattle>>& p_tapBattle, int &p_i)
+{
+	pUtility.GoToXY(tapStartPosX + (p_tapBattle[p_i]->Getdirection()*tapDistance), p_tapBattle[p_i]->tapY);
+	cout << " ";
+	p_tapBattle.erase(p_tapBattle.begin());
+	p_i--;
+}
+
+void my_game::GamePlay::tapKey(int p_direction)
+{
+	if (isBattle)
+	{
+		switch (p_direction) {
+		case direction::LEFT:
+			tapKey_calculate(tapBattle_LEFT, direction::LEFT);
+			break;
+		case direction::UP:
+			tapKey_calculate(tapBattle_UP, direction::UP);
+			break;
+		case direction::DOWN:
+			tapKey_calculate(tapBattle_DOWN, direction::DOWN);
+			break;
+		case direction::RIGHT:
+			tapKey_calculate(tapBattle_RIGHT, direction::RIGHT);
+			break;
+		}
+	}
+}
+
+void my_game::GamePlay::tapKey_calculate(std::vector<std::shared_ptr<TapBattle>>& p_tapBattle,int num)
+{
+	if (static_cast<int>(p_tapBattle.size()) == 0)
+	{
+		//miss
+		pUtility.GoToXY(67, 8);
+		std::cout << "       ";
+		pUtility.GoToXY(69, 8);
+		std::cout << "miss";
+
+		playerTakeDamage();
+
+		timeToShow = timeToShowInfoTap;
+	}
+	else
+	for (int i = 0; i < static_cast<int>(p_tapBattle.size()); i++)
+	{
+		if (p_tapBattle[i]->tapY == tapStartPosY + 1)
+		{
+			//cool
+			pUtility.GoToXY(67, 8);
+			std::cout << "       ";
+			pUtility.GoToXY(69, 8);
+			std::cout << "cool";
+			tapDelete(p_tapBattle, i);
+
+			monsterTakeDamage();
+
+			pUtility.GoToXY(68, 9);
+			std::cout << "        ";
+			pUtility.GoToXY(68, 9);
+			std::cout << "HP " << monster[Map[MAP_ID]->getOldObj()]->get_HP();
+
+			timeToShow = timeToShowInfoTap;
+			break;
+		}
+		else if (p_tapBattle[i]->tapY == tapStartPosY + 2)
+		{
+			//perfect
+			pUtility.GoToXY(67, 8);
+			std::cout << "       ";
+			pUtility.GoToXY(67, 8);
+			std::cout << "perfect";
+			tapDelete(p_tapBattle, i);
+			pUtility.GoToXY(tapStartPosX + (num*tapDistance), tapStartPosY + 2);
+			cout << "-";
+
+			monsterTakeDamage();
+
+			pUtility.GoToXY(68, 9);
+			std::cout << "        ";
+			pUtility.GoToXY(68, 9);
+			std::cout << "HP " << monster[Map[MAP_ID]->getOldObj()]->get_HP();
+
+			timeToShow = timeToShowInfoTap;
+			break;
+		}
+		else if (p_tapBattle[i]->tapY == tapStartPosY + 3)
+		{
+			//good
+			pUtility.GoToXY(67, 8);
+			std::cout << "       ";
+			pUtility.GoToXY(69, 8);
+			std::cout << "good";
+			tapDelete(p_tapBattle, i);
+
+			monsterTakeDamage();
+
+			pUtility.GoToXY(68, 9);
+			std::cout << "        ";
+			pUtility.GoToXY(68, 9);
+			std::cout << "HP " << monster[Map[MAP_ID]->getOldObj()]->get_HP();
+
+
+
+			timeToShow = timeToShowInfoTap;
+			break;
+		}
+		else if (p_tapBattle[i]->tapY == tapStartPosY + 4)
+		{
+			//bad
+			pUtility.GoToXY(67, 8);
+			std::cout << "       ";
+			pUtility.GoToXY(69, 8);
+			std::cout << "bad";
+			tapDelete(p_tapBattle, i);
+
+			timeToShow = timeToShowInfoTap;
+			break;
+		}
+		else if (p_tapBattle[i]->tapY == tapStartPosY + 5)
+		{
+			//miss
+			pUtility.GoToXY(67, 8);
+			std::cout << "       ";
+			pUtility.GoToXY(69, 8);
+			std::cout << "miss";
+			tapDelete(p_tapBattle, i);
+
+			playerTakeDamage();
+
+			timeToShow = timeToShowInfoTap;
+			break;
+		}
+		else
+		{
+			//miss
+			pUtility.GoToXY(67, 8);
+			std::cout << "       ";
+			pUtility.GoToXY(69, 8);
+			std::cout << "miss";
+
+			playerTakeDamage();
+
+			timeToShow = timeToShowInfoTap;
+		}
+	}
+
+
 }

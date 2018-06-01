@@ -45,11 +45,11 @@ void WorldMap::drawMap()
 void WorldMap::drawObjInMap(int x, int y, int Obj, int sym)
 {
 	int newX = (startPosX + 1) +x;
-	int newY = (startPosX + 1);
+	int newY = (startPosY + 1);
 	pUtility.GoToXY(x + newX, y + newY);
 	if (Obj == OBJ_empty)
 	{
-		std::cout << " " << static_cast<char>(SYM_empty);;
+		std::cout << " " << static_cast<char>(SYM_empty);
 	}
 	else if (worldMap[x][y] == Obj)
 	{

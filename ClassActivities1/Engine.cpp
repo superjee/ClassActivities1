@@ -18,7 +18,7 @@ int Engine::runLoop()
 	if (!this->intialize())
 		return 1;
 
-	srand(GetTickCount());
+	//srand((unsigned int)time(NULL));//srand(GetTickCount());
 
 	m_EngingState = EngineState::Running;
 	while (m_EngingState == EngineState::Running)

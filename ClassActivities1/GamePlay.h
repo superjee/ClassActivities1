@@ -13,7 +13,7 @@
 #include "WorldMap.h"
 #include "ReadInFo_Monster.h"
 #include "SpawnPoint.h"
-
+#include "TapBattle.h"
 #include "Utility.h"
 
 namespace my_game {
@@ -41,6 +41,10 @@ const int INFO_MONSTER_ID = 0;
 		std::vector<std::shared_ptr<ReadInFo_Monster>> readInFo_Monster;
 		std::vector<std::shared_ptr<SpawnPoint>> spawnPoint;
 		std::vector<std::shared_ptr<Monster>> monster;
+		std::vector<std::shared_ptr<TapBattle>> tapBattle_LEFT;
+		std::vector<std::shared_ptr<TapBattle>> tapBattle_UP;
+		std::vector<std::shared_ptr<TapBattle>> tapBattle_DOWN;
+		std::vector<std::shared_ptr<TapBattle>> tapBattle_RIGHT;
 		//
 		int ran = -1;
 		int ranX = -1;
@@ -51,9 +55,15 @@ const int INFO_MONSTER_ID = 0;
 		int battleTick = 0;
 		int day = 1;
 		int hour = 0;
+		int tapStartPosX = 66;
+		int tapStartPosY = 10;
+		int tapDistance = 3;
+		int timeToShowInfoTap = 25;
+		int timeToShow = 0;
 
+		bool oneTimes = false;
 		Utility pUtility;
-
+		enum direction { LEFT = 0, UP = 1, DOWN = 2, RIGHT = 3 };
 		// function prototypes
 		void clearScreen();
 		void updateGame();
@@ -72,5 +82,14 @@ const int INFO_MONSTER_ID = 0;
 		void moveLEFT();
 		void moveRIGHT();
 		void getInput(int p_input);
+		void playerTakeDamage();
+		void monsterTakeDamage();
+		void tapGameUpdate(std::vector<std::shared_ptr<TapBattle>> &p_tapBattle);
+		void tapGameUpdateEnd(std::vector<std::shared_ptr<TapBattle>> &p_tapBattle);
+		void tapGameStart();
+		void tapGameEnd();
+		void tapDelete(std::vector<std::shared_ptr<TapBattle>> &p_tapBattle , int &p_i);
+		void tapKey(int di);
+		void tapKey_calculate(std::vector<std::shared_ptr<TapBattle>> &p_tapBattle,int num);
 	};
 }

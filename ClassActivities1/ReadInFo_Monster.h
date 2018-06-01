@@ -21,12 +21,14 @@ public:
 	//infoNumber 2 = HP
 	//infoNumber 3 = Attack
 	//infoNumber 4 = Attack_Swing
+	//infoNumber 5 = TapSpeed
+	//infoNumber 6 = TapFrequency
 	string get_InFo_Monster(int type,int variance, int infoNumber);
 
 	int get_MaxVariance(int type);
 
 private:
-	static const int NUMBER_OF_INFO = 5;
+	static const int NUMBER_OF_INFO = 7;
 	string line;
 	string newMonster = "NEW";
 	string endMonster = "END";

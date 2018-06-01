@@ -30,7 +30,7 @@ private:
 	static const int OBJ_MONSTER = 3;
 	int worldMap[X][Y];
 	int oldObjID = -1;
-	int startPosX = 8;
+	int startPosX = 0;
 	int startPosY = 8;
 	int endPosY = startPosY + Y + 3;
 };

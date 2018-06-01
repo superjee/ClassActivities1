@@ -23,11 +23,16 @@ void Monster::initiation(shared_ptr<ReadInFo_Monster> _ReadInFo_Monster)
 	int info_hp = atoi(_ReadInFo_Monster->get_InFo_Monster(monsterType, monsterVariance, INFO_HP).c_str());
 	int info_attack = atoi(_ReadInFo_Monster->get_InFo_Monster(monsterType, monsterVariance, INFO_ATTACK).c_str());
 	int info_attack_swing = atoi(_ReadInFo_Monster->get_InFo_Monster(monsterType, monsterVariance, INFO_ATTACK_SWING).c_str());
+	int info_tapSpeed = atoi(_ReadInFo_Monster->get_InFo_Monster(monsterType, monsterVariance, INFO_TAP_SPEED).c_str());
+	int info_tapFrequency = atoi(_ReadInFo_Monster->get_InFo_Monster(monsterType, monsterVariance, INFO_TAP_FREQUNECY).c_str());
+
 
 	set_name(info_name);
 	set_MonsterSymbolic(info_symbolic);
 	set_HP(info_hp);
 	set_Atk(info_attack, info_attack_swing);
+	tapSpeed = info_tapSpeed;
+	tapFrequency = info_tapFrequency;
 }
 
 void Monster::AddDamageToPlayer()
@@ -156,6 +161,16 @@ void Monster::printType()
 int Monster::get_atkLast()
 {
 	return atkLast;
+}
+
+int Monster::get_tapSpeed()
+{
+	return tapSpeed;
+}
+
+int Monster::get_tapFrequency()
+{
+	return tapFrequency;
 }
 
 void Monster::monsters_stronger(int percent)

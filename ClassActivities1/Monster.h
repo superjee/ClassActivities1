@@ -36,6 +36,8 @@ public:
 	void printPos();
     void printType();
 	int get_atkLast();
+	int get_tapSpeed();
+	int get_tapFrequency();
 
 	void monsters_stronger(int percent = 1);
 private:
@@ -55,12 +57,17 @@ private:
 	//Monster position
 	int pos_X = -1;
 	int pos_Y = -1;
+	//TapSpeed
+	int tapSpeed = -1;
+	int tapFrequency = -1;
 protected:
 	static const int INFO_NAME = 0;
 	static const int INFO_SYMBOLIC = 1;
 	static const int INFO_HP = 2;
 	static const int INFO_ATTACK = 3;
 	static const int INFO_ATTACK_SWING = 4;
+	static const int INFO_TAP_SPEED = 5;
+	static const int INFO_TAP_FREQUNECY = 6;
 };
 #include "zombie.h"
 #include "Orc.h"
