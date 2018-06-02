@@ -7,6 +7,7 @@
 #include <iostream>
 #include "Utility.h"
 #include "GamePlay.h"
+#include "WorldClock.hpp"
 
 enum EngineState
 {
@@ -23,7 +24,7 @@ class Engine final
 public:
 	Engine();
 	~Engine();
-	int runLoop();
+	int runLoop(WorldClock &p_clock);
 	static EngineState GetEngineState() { return m_EngingState; }
 
 	std::shared_ptr<Utility> pUtility;

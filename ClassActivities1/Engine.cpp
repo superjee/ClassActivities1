@@ -13,7 +13,7 @@ Engine::~Engine()
 	m_EngingState = EngineState::Destroying;
 }
 //public Methods
-int Engine::runLoop()
+int Engine::runLoop(WorldClock &p_clock)
 {
 	if (!this->intialize())
 		return 1;
@@ -23,13 +23,20 @@ int Engine::runLoop()
 	m_EngingState = EngineState::Running;
 	while (m_EngingState == EngineState::Running)
 	{
+		p_clock.setfristTime();
 		this->update();
+		p_clock.setDeltaTime();
+		pUtility->GoToXY(0, 45);
+		cout << "                           ";
+		pUtility->GoToXY(0, 45);
+		cout << endl << "clock : " << p_clock.getDeltaTimeInMilliseconds();
 		//this->draw();
 	}
 
 	if (!this->shutDown())
 		return 1;
 
+	
 	return 0;
 }
 

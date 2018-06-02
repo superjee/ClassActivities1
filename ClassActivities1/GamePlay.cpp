@@ -112,6 +112,7 @@ void my_game::GamePlay::updateGame()
 			pUtility.GoToXY(67, 8);
 			std::cout << "       ";
 			pUtility.GoToXY(68, 9);
+			//Utility::GoToXY(68,9); edit 2/6/61
 			std::cout << "        ";
 		}
 	}

@@ -20,7 +20,7 @@ class Utility final
 public:
 	Utility();
 	~Utility();
-	int KeyboardInput();
-	void GoToXY(int x, int y);
+	static int KeyboardInput();
+	static void GoToXY(int x, int y);
 };
 #endif //_UTILITY_H
