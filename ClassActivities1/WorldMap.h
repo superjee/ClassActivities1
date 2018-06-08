@@ -27,7 +27,7 @@ public:
 private:
 	static const int X = 30;
 	static const int Y = 30;
-	static const int OBJ_MONSTER = 3;
+	//static const int OBJ_MONSTER = 3;
 	int worldMap[X][Y];
 	int oldObjID = -1;
 	int startPosX = 0;

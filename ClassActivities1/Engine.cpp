@@ -13,23 +13,22 @@ Engine::~Engine()
 	m_EngingState = EngineState::Destroying;
 }
 //public Methods
-int Engine::runLoop(WorldClock &p_clock)
+int Engine::runLoop(WorldClock &p_clock, int system)
 {
-	if (!this->intialize())
+	if (!this->intialize(system))
 		return 1;
-
-	//srand((unsigned int)time(NULL));//srand(GetTickCount());
 
 	m_EngingState = EngineState::Running;
 	while (m_EngingState == EngineState::Running)
 	{
 		p_clock.setfristTime();
-		this->update();
+		this->update(system);
 		p_clock.setDeltaTime();
-		pUtility->GoToXY(0, 45);
+		/*pUtility->GoToXY(0, 45);
 		cout << "                           ";
 		pUtility->GoToXY(0, 45);
-		cout << endl << "clock : " << p_clock.getDeltaTimeInMilliseconds();
+		cout << endl << "clock : " << p_clock.getDeltaTimeInMilliseconds();*/
+
 		//this->draw();
 	}
 
@@ -41,12 +40,19 @@ int Engine::runLoop(WorldClock &p_clock)
 }
 
 //Private Methods
-int Engine::intialize()
+int Engine::intialize(int system)
 {
 	m_EngingState = EngineState::Initializing;
-	//
-	Engine::pUtility = std::make_shared<Utility>();
-	Engine::pGamePlay = std::make_shared<my_game::GamePlay>();
+
+	switch (system)
+	{
+	case System::GamePlay:
+		my_game::GamePlay::instance().initGame();
+		break;
+	case System::AutonomousCar:
+
+		break;
+	}
 
 	return true;
 }
@@ -56,18 +62,35 @@ int Engine::draw()
 	return true;
 }
 
-int Engine::update()
+int Engine::update(int system)
 {
-	int keyCode = pUtility->KeyboardInput();
+	int keyCode = Utility::KeyboardInput();
 	if (keyCode == KeyboardInput::EXIT)
 	{
 		m_EngingState = EngineState::ShuttingDown;
 	}
 	else
 	{
-		Engine::pGamePlay->getInput(keyCode);
+		switch (system)
+		{
+		case System::GamePlay:
+			my_game::GamePlay::instance().getInput(keyCode);
+			break;
+		case System::AutonomousCar:
+
+			break;
+		}
 	}
-	Engine::pGamePlay->updateGame();
+
+	switch (system)
+	{
+	case System::GamePlay:
+		my_game::GamePlay::instance().updateGame();
+		break;
+	case System::AutonomousCar:
+
+		break;
+	}
 	
 
 	return true;
@@ -76,5 +99,7 @@ int Engine::update()
 int Engine::shutDown()
 {
 	m_EngingState = EngineState::ShuttingDown;
+	Utility::ClearScreen();
+
 	return true;
 }

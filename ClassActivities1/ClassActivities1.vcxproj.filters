@@ -57,6 +57,12 @@
     <ClCompile Include="WorldClock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AutonomousCar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Grid2D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Monster.h">
@@ -99,6 +105,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WorldClock.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AutonomousCar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Grid2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

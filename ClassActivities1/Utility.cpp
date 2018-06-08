@@ -1,7 +1,6 @@
 #include "Utility.h"
-#include <windows.h>
-#include <conio.h>
-#include <iostream>
+using namespace std;
+
 Utility::Utility()
 {
 }
@@ -34,4 +33,43 @@ void Utility::GoToXY(int x, int y)
 	}
 
 	SetConsoleCursorPosition(hStdout, coord);
+}
+
+void Utility::ClearScreen()
+{
+	static HANDLE hStdout = NULL;
+	static CONSOLE_SCREEN_BUFFER_INFO csbi;
+	const COORD startCoords = { 0,0 };
+	DWORD dummy;
+
+	if (!hStdout)
+	{
+		hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
+		GetConsoleScreenBufferInfo(hStdout, &csbi);
+	}
+
+	FillConsoleOutputCharacter(hStdout,
+		' ',
+		csbi.dwSize.X * csbi.dwSize.Y,
+		startCoords,
+		&dummy);
+	Utility::GoToXY(0, 0);
+}
+
+void Utility::ReadInfo_Text(std::string textfile,std::vector<std::string> & p_info)
+{
+	p_info.clear();
+	ifstream myfile(textfile);
+	if (myfile.is_open())
+	{
+		string line;
+		while (getline(myfile, line))
+		{
+			p_info.push_back(line);
+		}
+		myfile.close();
+	}
+	else std::cout << "Unable to open file";
+
+
 }

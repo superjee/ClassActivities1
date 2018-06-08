@@ -6,8 +6,11 @@
 #include <memory>
 #include <iostream>
 #include "Utility.h"
-#include "GamePlay.h"
 #include "WorldClock.hpp"
+#include "Grid2D.h"
+
+#include "GamePlay.h"
+#include "AutonomousCar.h"
 
 enum EngineState
 {
@@ -18,22 +21,25 @@ enum EngineState
 	ShuttingDown,
 	Destroying
 };
-
+enum System
+{
+	GamePlay,
+	AutonomousCar
+};
 class Engine final
 {
 public:
 	Engine();
 	~Engine();
-	int runLoop(WorldClock &p_clock);
+	int runLoop(WorldClock &p_clock,int system);
 	static EngineState GetEngineState() { return m_EngingState; }
 
-	std::shared_ptr<Utility> pUtility;
-	std::shared_ptr<my_game::GamePlay> pGamePlay;
+	//std::shared_ptr<my_game::GamePlay> pGamePlay;
 
 private:
-	int intialize();
+	int intialize(int system);
 	int draw();
-	int update();
+	int update(int system);
 	int shutDown();
 
 	static EngineState m_EngingState;

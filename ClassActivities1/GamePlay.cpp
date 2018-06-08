@@ -2,7 +2,7 @@
 using namespace my_game;
 GamePlay::GamePlay()
 {
-	initGame();
+	//initGame();
 }
 
 GamePlay::~GamePlay()

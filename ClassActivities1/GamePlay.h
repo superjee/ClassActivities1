@@ -36,6 +36,13 @@ const int INFO_MONSTER_ID = 0;
 	public:
 		GamePlay();
 		~GamePlay();
+
+		static GamePlay& instance()
+		{
+			static GamePlay instance_;
+			return instance_;
+		}
+
 		std::vector<std::shared_ptr<WorldMap>> Map;
 		std::vector<std::shared_ptr<Player>> player;
 		std::vector<std::shared_ptr<ReadInFo_Monster>> readInFo_Monster;
@@ -91,5 +98,6 @@ const int INFO_MONSTER_ID = 0;
 		void tapDelete(std::vector<std::shared_ptr<TapBattle>> &p_tapBattle , int &p_i);
 		void tapKey(int di);
 		void tapKey_calculate(std::vector<std::shared_ptr<TapBattle>> &p_tapBattle,int num);
+
 	};
 }

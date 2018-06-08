@@ -1,7 +1,12 @@
 #pragma once
 #ifndef _UTILITY_H
 #define _UTILITY_H
-
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <windows.h>
+#include <conio.h>
+#include "Include\nlohmann\json.hpp"
 enum KeyboardInput
 {
 	EXIT = 27,
@@ -22,5 +27,7 @@ public:
 	~Utility();
 	static int KeyboardInput();
 	static void GoToXY(int x, int y);
+	static void ClearScreen();
+	static void ReadInfo_Text(std::string textfile,std::vector<std::string> &p_info);
 };
 #endif //_UTILITY_H
