@@ -70,6 +70,11 @@ void Utility::ReadInfo_Text(std::string textfile,std::vector<std::string> & p_in
 		myfile.close();
 	}
 	else std::cout << "Unable to open file";
+}
 
-
+void Utility::ReadInfo_json(std::string jsonfile, nlohmann::json &p_info)
+{
+	std::ifstream ifs(jsonfile);
+	p_info.clear();
+	p_info = nlohmann::json::parse(ifs);
 }

@@ -29,5 +29,6 @@ public:
 	static void GoToXY(int x, int y);
 	static void ClearScreen();
 	static void ReadInfo_Text(std::string textfile,std::vector<std::string> &p_info);
+	static void ReadInfo_json(std::string jsonfile ,nlohmann::json &p_info);
 };
 #endif //_UTILITY_H

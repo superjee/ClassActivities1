@@ -1,0 +1,7 @@
+{
+	"name":"Benz",
+	"properties":{
+		"fuel":100,
+		"shape":"$"
+	}
+}
