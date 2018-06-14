@@ -44,11 +44,6 @@ void my_cargame::AutonomousCar::init(bool start)
 	if (start)
 	{
 		loadAllTracks();
-
-		cout << "Pickup Truck : w" << endl;
-		cout << "Truck : a" << endl;
-		cout << "Sport Car : s" << endl;
-		cout << "Van : d" << endl;
 	}
 	
 	while (true)
@@ -60,9 +55,23 @@ void my_cargame::AutonomousCar::init(bool start)
 		{
 			Utility::ClearScreen();
 			_Grid2D->initiation(tracks_data[playerSelectTrack].width, tracks_data[playerSelectTrack].height);
-			_Grid2D->drawBox(0, 1);
 			setTrackStart();
 			drawTrack();
+			_Grid2D->drawBox(startPosX, startPosY);
+
+			cout << "Pickup Truck : w" << endl;
+			cout << "Truck        : a" << endl;
+			cout << "Sport Car    : s" << endl;
+			cout << "Van          : d" << endl;
+			cout << "StartPos     : " << startX << " | " << startY << endl;
+			//////
+			_MoveableObject.push_back(make_shared<MoveableObject>());
+			_MoveableObject[0]->set_Pos(startX, startY);
+			
+			_MoveableObject[0]->autoMove(_Grid2D);
+			//_Grid2D->setDataInGrid(startX, startY, 9);
+			//_Grid2D->drawObj(startX, startY,9,'%');
+
 			break;
 		}
 	}
@@ -70,6 +79,7 @@ void my_cargame::AutonomousCar::init(bool start)
 
 void my_cargame::AutonomousCar::update()
 {
+	_MoveableObject[0]->autoMove(_Grid2D);
 	Sleep(100);
 }
 
@@ -78,7 +88,7 @@ void my_cargame::AutonomousCar::getInput(int p_input)
 	switch (p_input)
 	{
 	case KeyboardInput::KB_W:
-		init(false);
+		//init(false);
 		break;
 	case KeyboardInput::KB_A:
 	
@@ -87,7 +97,8 @@ void my_cargame::AutonomousCar::getInput(int p_input)
 	
 		break;
 	case KeyboardInput::KB_D:
-	
+		//_MoveableObject[0]->moveRIGHT(_Grid2D);
+		//_MoveableObject[0]->autoMove(_Grid2D);
 		break;
 	case KeyboardInput::KB_1:
 
@@ -136,30 +147,69 @@ void my_cargame::AutonomousCar::setTrackStart()
 	{
 		for (int i = 0; i < _Grid2D->getLength(Grid2D::GRID::GRID_X); i++)
 		{
-			int dummy = ((i + (j*_Grid2D->getLength(Grid2D::GRID::GRID_X))) * 3);
+			/*int dummy = ((i + (j*_Grid2D->getLength(Grid2D::GRID::GRID_X))) * 3);
 
 			if (tracks_data[playerSelectTrack].data[dummy] == 0
 				&& tracks_data[playerSelectTrack].data[dummy + 1] == 0
 				&& tracks_data[playerSelectTrack].data[dummy + 2] == 0)
 				_Grid2D->setDataInGrid(i, j, 1);
 			else
+				_Grid2D->setDataInGrid(i, j, 0);*/ //
+
+			int dummy = tracks_data[playerSelectTrack].data.size() - 
+				((((_Grid2D->getLength(Grid2D::GRID::GRID_X) - 1) - i) + 
+				(j*_Grid2D->getLength(Grid2D::GRID::GRID_X))) * 3);
+
+			if (tracks_data[playerSelectTrack].data[dummy - 3] == 0
+				&& tracks_data[playerSelectTrack].data[dummy - 2] == 0
+				&& tracks_data[playerSelectTrack].data[dummy - 1] == 0)
+				_Grid2D->setDataInGrid(i, j, 1);
+			else
 				_Grid2D->setDataInGrid(i, j, 0);
+
+			//_Grid2D->setDataInGrid(i, j, tracks_data[playerSelectTrack].data.size() - ((((_Grid2D->getLength(Grid2D::GRID::GRID_X)-1)-i) + (j*_Grid2D->getLength(Grid2D::GRID::GRID_X))) * 3));
+			//***_Grid2D->setDataInGrid(i, j, tracks_data[playerSelectTrack].data.size() - ((i + (j*_Grid2D->getLength(Grid2D::GRID::GRID_X))) * 3));
 		}
 	}
 
-}
-
-void my_cargame::AutonomousCar::drawTrack()
-{
-	int dummy = 0;
-	for (int j = _Grid2D->getLength(Grid2D::GRID::GRID_Y) - 1; j >= 0; j--)
+	/*int dummy = 0;
+	for (int j = 0; j < _Grid2D->getLength(Grid2D::GRID::GRID_Y); j++)//for (int j = _Grid2D->getLength(Grid2D::GRID::GRID_Y) - 1; j >= 0; j--)
 	{
-		Utility::GoToXY(1, 2 + dummy);
+		Utility::GoToXY(1, 2 + j);
 		for (int i = 0; i < _Grid2D->getLength(Grid2D::GRID::GRID_X); i++)
 		{
 			std::cout << " " << _Grid2D->getDataInGrid(i, j);
 		}
 		dummy++;
+		std::cout << std::endl;
+	}*/
+}
+
+void my_cargame::AutonomousCar::drawTrack()
+{
+	startX = -1;
+	startY = -1;
+	for (int j = 0; j < _Grid2D->getLength(Grid2D::GRID::GRID_Y); j++)//for (int j = _Grid2D->getLength(Grid2D::GRID::GRID_Y) - 1; j >= 0; j--)
+	{
+		Utility::GoToXY(startPosX+1, startPosY+1 + j);
+		for (int i = 0; i < _Grid2D->getLength(Grid2D::GRID::GRID_X); i++)
+		{
+			switch (_Grid2D->getDataInGrid(i, j))
+			{
+			case 0:
+				std::cout << "  ";
+				if (startX == -1 && startY == -1)
+				{
+					startX = i;
+					startY = j;
+				}
+				break;
+			case 1:
+				std::cout << " =";
+				break;
+			}
+			//std::cout << " " << _Grid2D->getDataInGrid(i, j);
+		}
 		std::cout << std::endl;
 	}
 }

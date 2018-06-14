@@ -36,14 +36,17 @@ public:
 	int getDataInGrid(int x, int y);
 	void setDataInGrid(int x,int y,int data);
 	void drawBox(int startPosX, int startPosY);
-	//void drawObj();
+	void drawObj(int x,int y,int obj, char sym = 0);
 	int getLength(int xORy);
-
+	//void setOldData(int )
 	enum GRID{ GRID_X , GRID_Y };
 
 private:
 	int X;
 	int Y;
+	int oldData;
+	int m_startPosX;
+	int m_startPosY;
 	std::vector<int> gridX;
 	std::vector<std::vector<int>> gridY;
 };

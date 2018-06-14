@@ -43,7 +43,7 @@ int Engine::runLoop(WorldClock &p_clock, std::shared_ptr<SystemBase> system)
 int Engine::intialize(std::shared_ptr<SystemBase> system)
 {
 	m_EngingState = EngineState::Initializing;
-	//system.push_back
+	srand((unsigned int)time(NULL));
 	system->init(true);
 	return true;
 }

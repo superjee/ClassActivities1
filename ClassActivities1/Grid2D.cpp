@@ -40,6 +40,8 @@ void Grid2D::setDataInGrid(int x, int y, int data)
 
 void Grid2D::drawBox(int startPosX, int startPosY)
 {
+	m_startPosX = startPosX;
+	m_startPosY = startPosY;
 	Utility::GoToXY(startPosX, startPosY);
 	for (int loop = 0; loop < (X * 2) + 3; loop++)
 	{
@@ -53,10 +55,32 @@ void Grid2D::drawBox(int startPosX, int startPosY)
 	for (int loop = 1; loop < Y + 1; loop++)
 	{
 		Utility::GoToXY(startPosX, startPosY + loop);
-		std::cout << "|";
+		std::cout << "=";
 		Utility::GoToXY(startPosX + (X * 2) + 2, startPosY + loop);
-		std::cout << "|";
+		std::cout << "=";
+		
 	}
+	Utility::GoToXY(0, startPosY + Y + 2);
+}
+
+void Grid2D::drawObj(int x,int y, int obj, char sym)
+{
+	int newX = (m_startPosX + 1) + x;
+	int newY = (m_startPosY + 1);
+	Utility::GoToXY(x + newX, y + newY);
+	if (obj == 0)
+	{
+		std::cout << "  ";
+	}
+	else if (gridY[y][x] == obj)
+	{
+		std::cout << " " << static_cast<char>(sym);
+	}
+	else if (gridY[y][x] != obj && obj == NULL)
+	{
+		std::cout << "DrawObj Error" << std::endl;
+	}
+
 }
 
 int Grid2D::getLength(int xORy)

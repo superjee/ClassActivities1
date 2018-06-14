@@ -124,7 +124,7 @@ void my_game::GamePlay::init(bool start)
 {
 	gametime = 0;
 	if (start) {
-		srand((unsigned int)time(NULL));
+		//srand((unsigned int)time(NULL));
 		loadData();
 		declareVariableOneTime();
 	}
