@@ -4,19 +4,30 @@
 #include <iostream>
 #include "Engine.h"
 
-class AutonomousCar
-{
-public:
-	~AutonomousCar();
-	static AutonomousCar& instance() 
-	{ 
-		static AutonomousCar instance_;
-		return instance_; 
-	}
-	void test();
-private:
-	AutonomousCar();
-	int num = 0;
-	//static AutonomousCar instance_;
-};
+namespace my_cargame {
+	class AutonomousCar : public SystemBase
+	{
+	public:
+		AutonomousCar();
+		virtual ~AutonomousCar();
+		void test();
+
+		void init(bool start = true) override;
+		void update() override;
+		void getInput(int) override;
+
+		void loadAllTracks();
+		void setTrackStart();
+		void drawTrack();
+
+		std::shared_ptr<Grid2D> _Grid2D = make_shared<Grid2D>();
+
+	private:
+		int playerSelectTrack = -1;
+		int num = 0;
+		int TracksCount = 0;
+		
+		std::vector<BMP_Data> tracks_data;
+	};
+}
 #endif

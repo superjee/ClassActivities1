@@ -1,7 +1,7 @@
 #pragma once
 #ifndef _GRID2D_H
 #define _GRID2D_H
-#include "Engine.h"
+#include "Utility.h"
 
 class Grid2D
 {

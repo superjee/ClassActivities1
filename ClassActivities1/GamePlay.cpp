@@ -30,7 +30,7 @@ void my_game::GamePlay::clearScreen()
 	pUtility.GoToXY(0,0);
 }
 
-void my_game::GamePlay::updateGame()
+void my_game::GamePlay::update()
 {
 	gametime++;
 
@@ -120,7 +120,7 @@ void my_game::GamePlay::updateGame()
 	Sleep(25);
 }
 
-void my_game::GamePlay::initGame(bool start)
+void my_game::GamePlay::init(bool start)
 {
 	gametime = 0;
 	if (start) {
@@ -460,7 +460,7 @@ void my_game::GamePlay::playerTakeDamage()
 		//Game Over
 		isBattle = false;
 		clearScreen();
-		initGame(false);
+		init(false);
 	}
 }
 

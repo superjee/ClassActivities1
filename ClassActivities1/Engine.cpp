@@ -13,7 +13,7 @@ Engine::~Engine()
 	m_EngingState = EngineState::Destroying;
 }
 //public Methods
-int Engine::runLoop(WorldClock &p_clock, int system)
+int Engine::runLoop(WorldClock &p_clock, std::shared_ptr<SystemBase> system)
 {
 	if (!this->intialize(system))
 		return 1;
@@ -24,11 +24,11 @@ int Engine::runLoop(WorldClock &p_clock, int system)
 		p_clock.setfristTime();
 		this->update(system);
 		p_clock.setDeltaTime();
-		/*pUtility->GoToXY(0, 45);
-		cout << "                           ";
-		pUtility->GoToXY(0, 45);
-		cout << endl << "clock : " << p_clock.getDeltaTimeInMilliseconds();*/
-
+		/*Utility::GoToXY(0, 0);
+		std::cout << "                           ";
+		Utility::GoToXY(0, 0);
+		std::cout << "" << p_clock.getDeltaTimeInMilliseconds();
+		*/
 		//this->draw();
 	}
 
@@ -40,20 +40,11 @@ int Engine::runLoop(WorldClock &p_clock, int system)
 }
 
 //Private Methods
-int Engine::intialize(int system)
+int Engine::intialize(std::shared_ptr<SystemBase> system)
 {
 	m_EngingState = EngineState::Initializing;
-
-	switch (system)
-	{
-	case System::GamePlay:
-		my_game::GamePlay::instance().initGame();
-		break;
-	case System::AutonomousCar:
-
-		break;
-	}
-
+	//system.push_back
+	system->init(true);
 	return true;
 }
 
@@ -62,7 +53,7 @@ int Engine::draw()
 	return true;
 }
 
-int Engine::update(int system)
+int Engine::update(std::shared_ptr<SystemBase> system)
 {
 	int keyCode = Utility::KeyboardInput();
 	if (keyCode == KeyboardInput::EXIT)
@@ -71,35 +62,21 @@ int Engine::update(int system)
 	}
 	else
 	{
-		switch (system)
-		{
-		case System::GamePlay:
-			my_game::GamePlay::instance().getInput(keyCode);
-			break;
-		case System::AutonomousCar:
-
-			break;
-		}
+		system->getInput(keyCode);
 	}
-
-	switch (system)
-	{
-	case System::GamePlay:
-		my_game::GamePlay::instance().updateGame();
-		break;
-	case System::AutonomousCar:
-
-		break;
-	}
-	
-
+	system->update();
 	return true;
 }
 
 int Engine::shutDown()
 {
 	m_EngingState = EngineState::ShuttingDown;
-	Utility::ClearScreen();
+	//Utility::ClearScreen();
 
 	return true;
+}
+
+void SystemBase::Exit()
+{
+	Engine::EngineEND();
 }

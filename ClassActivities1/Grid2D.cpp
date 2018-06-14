@@ -11,8 +11,21 @@ Grid2D::~Grid2D()
 
 void Grid2D::initiation(int set_x, int set_y)
 {
+	gridX.clear();
+	gridY.clear();
 	X = set_x;
 	Y = set_y;
+	int num = 0;
+	for (int j = 0; j < Y; j++)
+	{
+		for (int i = 0; i < X; i++)
+		{
+			gridX.push_back(num);
+			num++;
+		}
+		gridY.push_back(gridX);
+		gridX.clear();
+	}
 }
 
 int Grid2D::getDataInGrid(int x, int y)

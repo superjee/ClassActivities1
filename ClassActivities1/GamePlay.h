@@ -15,7 +15,7 @@
 #include "SpawnPoint.h"
 #include "TapBattle.h"
 #include "Utility.h"
-
+#include "Engine.h"
 namespace my_game {
 #define MAX_NUMBER_OF_MONSTER 100
 #define MAX_TYPE_OF_MONSTER 2
@@ -31,18 +31,11 @@ namespace my_game {
 
 const int INFO_MONSTER_ID = 0;
 
-	class GamePlay
+	class GamePlay : public SystemBase
 	{
 	public:
 		GamePlay();
 		~GamePlay();
-
-		static GamePlay& instance()
-		{
-			static GamePlay instance_;
-			return instance_;
-		}
-
 		std::vector<std::shared_ptr<WorldMap>> Map;
 		std::vector<std::shared_ptr<Player>> player;
 		std::vector<std::shared_ptr<ReadInFo_Monster>> readInFo_Monster;
@@ -73,8 +66,8 @@ const int INFO_MONSTER_ID = 0;
 		enum direction { LEFT = 0, UP = 1, DOWN = 2, RIGHT = 3 };
 		// function prototypes
 		void clearScreen();
-		void updateGame();
-		void initGame(bool start = true);
+		void update();
+		void init(bool start = true) override;
 		void loadData();
 		void declareVariableOneTime();
 		void drawGame();

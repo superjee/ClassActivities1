@@ -9,6 +9,16 @@
 #include "WorldClock.hpp"
 #include "Grid2D.h"
 
+class SystemBase
+{
+public:
+	virtual void init(bool) { std::cout << "SystemBase init\n"; Exit(); }
+	virtual void update() { std::cout << "SystemBase update\n"; Exit(); }
+	virtual void getInput(int) { std::cout << "SystemBase getInput\n"; Exit(); }
+private:
+	void Exit();
+};
+
 #include "GamePlay.h"
 #include "AutonomousCar.h"
 
@@ -26,20 +36,19 @@ enum System
 	GamePlay,
 	AutonomousCar
 };
+
 class Engine final
 {
 public:
 	Engine();
 	~Engine();
-	int runLoop(WorldClock &p_clock,int system);
+	int runLoop(WorldClock &p_clock,std::shared_ptr<SystemBase> system);
 	static EngineState GetEngineState() { return m_EngingState; }
-
-	//std::shared_ptr<my_game::GamePlay> pGamePlay;
-
+	static void EngineEND() { m_EngingState = EngineState::ShuttingDown;}
 private:
-	int intialize(int system);
+	int intialize(std::shared_ptr<SystemBase> system);
 	int draw();
-	int update(int system);
+	int update(std::shared_ptr<SystemBase> system);
 	int shutDown();
 
 	static EngineState m_EngingState;
