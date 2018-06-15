@@ -1,7 +1,26 @@
 {
-	"name":"Benz",
-	"properties":{
+	"PickupTruck":{
+		"name":"Pickup Truck",
+		"ID":11,
 		"fuel":100,
+		"shape":"%"
+	},
+	"Truck":{
+		"name":"Truck",
+		"ID":12,
+		"fuel":150,
+		"shape":"&"
+	},
+	"SportCar":{
+		"name":"Sport Car",
+		"ID":13,
+		"fuel":350,
 		"shape":"$"
+	},
+	"Van":{
+		"name":"Van",
+		"ID":14,
+		"fuel":250,
+		"shape":"@"
 	}
 }

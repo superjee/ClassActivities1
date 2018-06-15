@@ -22,5 +22,9 @@ private:
 	int old_Y = -1;
 	std::vector<int> canMove;
 	std::vector<int> canMoveback;
+protected:
+	std::string name;
+	int dataID = -1;
+	std::string shape = "?";
 };
 

@@ -2,8 +2,6 @@
 using namespace my_cargame;
 void AutonomousCar::test()
 {
-	num++;
-	std::cout << num << " AutonomousCar test" << std::endl;
 	BMP_Data t1;
 	Utility::ReadBMP("track_3.bmp", t1);
 	Grid2D test;
@@ -44,6 +42,7 @@ void my_cargame::AutonomousCar::init(bool start)
 	if (start)
 	{
 		loadAllTracks();
+		Utility::ReadInfo_json("car_properties.json", json_data);
 	}
 	
 	while (true)
@@ -59,16 +58,14 @@ void my_cargame::AutonomousCar::init(bool start)
 			drawTrack();
 			_Grid2D->drawBox(startPosX, startPosY);
 
-			cout << "Pickup Truck : w" << endl;
-			cout << "Truck        : a" << endl;
-			cout << "Sport Car    : s" << endl;
-			cout << "Van          : d" << endl;
+			cout << "Pickup Truck " << json_data["PickupTruck"]["shape"] <<" "<< json_data["PickupTruck"]["fuel"] << ": w" << endl;
+			cout << "Truck        " << json_data["Truck"]["shape"] << " " << json_data["Truck"]["fuel"] << ": a" << endl;
+			cout << "Sport Car    " << json_data["SportCar"]["shape"] << " " << json_data["SportCar"]["fuel"] << ": s" << endl;
+			cout << "Van          " << json_data["Van"]["shape"] << " " << json_data["Van"]["fuel"] << ": d" << endl;
 			cout << "StartPos     : " << startX << " | " << startY << endl;
 			//////
-			_MoveableObject.push_back(make_shared<MoveableObject>());
-			_MoveableObject[0]->set_Pos(startX, startY);
-			
-			_MoveableObject[0]->autoMove(_Grid2D);
+
+
 			//_Grid2D->setDataInGrid(startX, startY, 9);
 			//_Grid2D->drawObj(startX, startY,9,'%');
 
@@ -79,7 +76,23 @@ void my_cargame::AutonomousCar::init(bool start)
 
 void my_cargame::AutonomousCar::update()
 {
-	_MoveableObject[0]->autoMove(_Grid2D);
+	for (int i = 0; i < static_cast<int>(_car.size()); i++)
+	{
+		if (_car[i]->canUseOneFuelForMove())
+		{
+			_car[i]->autoMove(_Grid2D);
+		}
+		else
+		{
+			_Grid2D->setDataInGrid(_car[i]->get_Pos(Grid2D::GRID::GRID_X), _car[i]->get_Pos(Grid2D::GRID::GRID_Y), 0);
+			_Grid2D->drawObj(_car[i]->get_Pos(Grid2D::GRID::GRID_X), _car[i]->get_Pos(Grid2D::GRID::GRID_Y), 0);
+			
+			numOfCar--;
+			_car.erase(_car.begin() + i);
+			i--;
+			
+		}
+	}
 	Sleep(100);
 }
 
@@ -89,28 +102,16 @@ void my_cargame::AutonomousCar::getInput(int p_input)
 	{
 	case KeyboardInput::KB_W:
 		//init(false);
+		spawnCar("PickupTruck");
 		break;
 	case KeyboardInput::KB_A:
-	
+		spawnCar("Truck");
 		break;
 	case KeyboardInput::KB_S:
-	
+		spawnCar("SportCar");
 		break;
 	case KeyboardInput::KB_D:
-		//_MoveableObject[0]->moveRIGHT(_Grid2D);
-		//_MoveableObject[0]->autoMove(_Grid2D);
-		break;
-	case KeyboardInput::KB_1:
-
-		break;
-	case KeyboardInput::KB_2:
-
-		break;
-	case KeyboardInput::KB_3:
-
-		break;
-	case KeyboardInput::KB_4:
-
+		spawnCar("Van");
 		break;
 	}
 }
@@ -211,6 +212,18 @@ void my_cargame::AutonomousCar::drawTrack()
 			//std::cout << " " << _Grid2D->getDataInGrid(i, j);
 		}
 		std::cout << std::endl;
+	}
+}
+
+void my_cargame::AutonomousCar::spawnCar(std::string name)
+{
+	if (_Grid2D->getDataInGrid(startX, startY) == 0)
+	{
+		_car.push_back(make_shared<car>());
+		numOfCar++;
+		_car[numOfCar]->init(json_data[name]["ID"], json_data[name]["name"], json_data[name]["fuel"], json_data[name]["shape"]);
+		_car[numOfCar]->set_Pos(startX, startY);
+		_Grid2D->setDataInGrid(startX, startY, json_data[name]["ID"]);
 	}
 }
 

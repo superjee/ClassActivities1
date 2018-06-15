@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Engine.h"
 #include "MoveableObject.h"
+#include "car.h"
 
 namespace my_cargame {
 	class AutonomousCar : public SystemBase
@@ -20,13 +21,14 @@ namespace my_cargame {
 		void loadAllTracks();
 		void setTrackStart();
 		void drawTrack();
+		void spawnCar(std::string name);
 
 		std::shared_ptr<Grid2D> _Grid2D = make_shared<Grid2D>();
-		std::vector<std::shared_ptr<MoveableObject>> _MoveableObject;
-
+		std::vector<std::shared_ptr<car>> _car;
+		nlohmann::json json_data;
 	private:
 		int playerSelectTrack = -1;
-		int num = 0;
+		int numOfCar = -1;
 		int TracksCount = 0;
 		int startX = -1;
 		int startY = -1;

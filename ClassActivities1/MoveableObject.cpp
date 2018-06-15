@@ -87,10 +87,13 @@ void MoveableObject::objMove(int currentX, int currentY, int nextX, int nextY, s
 		p_Grid2D->setDataInGrid(currentX, currentY, 0);
 		p_Grid2D->drawObj(currentX, currentY, 0);
 
-		p_Grid2D->setDataInGrid(nextX, nextY, 9);
-		p_Grid2D->drawObj(nextX, nextY, 9, '%');
+		p_Grid2D->setDataInGrid(nextX, nextY, dataID);
+		const char *cstr = shape.c_str();
+		char dummy = *cstr;
+		p_Grid2D->drawObj(nextX, nextY, dataID, dummy);
 
-		this->set_Pos(nextX, nextY);
+		pos_X = nextX;
+		pos_Y = nextY;
 		old_X = currentX;
 		old_Y = currentY;
 	}
@@ -143,6 +146,7 @@ void MoveableObject::autoMove(std::shared_ptr<Grid2D> &p_Grid2D)
 	int ran = -1;
 	if (canMove.size() == 0)
 	{
+		if(canMoveback.size() != 0)
 		switch (canMoveback[0])
 		{
 		case MOVE_DI::UP:
@@ -163,9 +167,10 @@ void MoveableObject::autoMove(std::shared_ptr<Grid2D> &p_Grid2D)
 	{
 		if (canMove.size() == 1)
 			ran = 0;
-		else
+		else if (canMove.size() > 1)
 			ran = rand() % canMove.size();
 
+		if (canMove.size() != 0)
 		switch (canMove[ran])
 		{
 		case MOVE_DI::UP:
@@ -183,5 +188,6 @@ void MoveableObject::autoMove(std::shared_ptr<Grid2D> &p_Grid2D)
 		}
 	}
 	
-
+	canMove.clear();
+	canMoveback.clear();
 }

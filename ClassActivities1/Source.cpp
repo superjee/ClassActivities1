@@ -21,10 +21,8 @@ int main()
 	
 	/*nlohmann::json tt;
 	Utility::ReadInfo_json("car_properties.json",tt);
-	std::cout << endl << tt.dump();
-
-	Utility::ReadInfo_json("car_properties.json", tt);
 	std::cout << endl << tt.dump();*/
+
 	//cout << endl;
 	//Logger::Get().log("this is my data");
 	//Logger::Get().log("this is my data");
