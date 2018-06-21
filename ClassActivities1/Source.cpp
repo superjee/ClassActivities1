@@ -13,14 +13,14 @@ int main()
 {	
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
-	WorldClock worldClock;
+	/*WorldClock worldClock;
 
 	auto _GamePlay = std::make_shared<my_game::GamePlay>();
 	auto _AutonomousCar = std::make_shared<my_cargame::AutonomousCar>();
 
 	auto pEngine = std::make_shared<Engine>();
 	int result = pEngine->runLoop(worldClock, _AutonomousCar);
-	return result;
+	return result;*/
 															  
 	//Debug
 	/*nlohmann::json tt;
@@ -30,7 +30,7 @@ int main()
 	//Logger::Get().log("this is my data");
 	//Logger::Get().log("this is my data");
 	//cout << endl << "clock : " <<a.getDeltaTimeInMilliseconds();
-	/*
+	
 	Vec2i v1(-12 ,16);
 	Vec2i v2(12, 9);
 	Vec2i v3(2, 2);
@@ -46,11 +46,6 @@ int main()
 	cout << "angle between v3(2, 2): v4(4, 4) = " <<v3.angle(v4) << endl;
 	//cout << v1.dot(v2) << endl;
 	//cout << Vec2i::dot(v1, v2) <<endl;
-
-	*/
-	
-
-
 
 	getchar();
 	return 0;
