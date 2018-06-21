@@ -69,6 +69,9 @@
     <ClCompile Include="car.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Vec2i.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Monster.h">
@@ -123,6 +126,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="car.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Vec2i.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

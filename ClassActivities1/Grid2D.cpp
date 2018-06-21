@@ -61,6 +61,8 @@ void Grid2D::drawBox(int startPosX, int startPosY)
 		
 	}
 	Utility::GoToXY(0, startPosY + Y + 2);
+	saveX = 0;
+	saveY = startPosY + Y + 2;
 }
 
 void Grid2D::drawObj(int x,int y, int obj, char sym)

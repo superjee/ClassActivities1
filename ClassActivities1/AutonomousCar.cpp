@@ -101,7 +101,6 @@ void my_cargame::AutonomousCar::getInput(int p_input)
 	switch (p_input)
 	{
 	case KeyboardInput::KB_W:
-		//init(false);
 		spawnCar("PickupTruck");
 		break;
 	case KeyboardInput::KB_A:
@@ -112,6 +111,19 @@ void my_cargame::AutonomousCar::getInput(int p_input)
 		break;
 	case KeyboardInput::KB_D:
 		spawnCar("Van");
+		break;
+	case KeyboardInput::KB_1:
+		for (int i = 0; i < static_cast<int>(_car.size()); i++)
+		{
+			_Grid2D->setDataInGrid(_car[i]->get_Pos(Grid2D::GRID::GRID_X), _car[i]->get_Pos(Grid2D::GRID::GRID_Y), 0);
+			_Grid2D->drawObj(_car[i]->get_Pos(Grid2D::GRID::GRID_X), _car[i]->get_Pos(Grid2D::GRID::GRID_Y), 0);
+
+			numOfCar--;
+			_car.erase(_car.begin() + i);
+			i--;
+		}
+		Utility::GoToXY(_Grid2D->saveX, _Grid2D->saveY +5);
+		init(false);
 		break;
 	}
 }

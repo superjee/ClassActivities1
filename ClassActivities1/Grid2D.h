@@ -40,7 +40,8 @@ public:
 	int getLength(int xORy);
 	//void setOldData(int )
 	enum GRID{ GRID_X , GRID_Y };
-
+	int saveX = 0;
+	int saveY = 0;
 private:
 	int X;
 	int Y;
@@ -49,5 +50,6 @@ private:
 	int m_startPosY;
 	std::vector<int> gridX;
 	std::vector<std::vector<int>> gridY;
+
 };
 #endif
