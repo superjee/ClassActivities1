@@ -2,7 +2,7 @@
 #include <iostream>
 using namespace math;
 
-Vec2i::Vec2i(int x_, int y_)
+Vec2i::Vec2i(float x_, float y_)
 	:x(x_),y(y_)
 {
 
@@ -66,7 +66,7 @@ float math::Vec2i::magnitude()
 
 float math::Vec2i::mag2()
 {
-	return pow(x, 2) + pow(y, 2);
+	return (x*x) + (y*y);
 }
 
 Vec2i & math::Vec2i::normalized()
@@ -87,7 +87,7 @@ float math::Vec2i::angle(Vec2i other)
 	float dot_product = this->dot(other);
 	float this_magnitude = this->magnitude();
 	float other_magnitude = other.magnitude();
-	return dot_product/(this_magnitude*other_magnitude);
+	return dot_product/(this_magnitude*other_magnitude) * 180 / PI;
 }
 
 void math::Vec2i::print()
@@ -117,3 +117,20 @@ Vec2i math::operator-(Vec2i left, Vec2i right)
 {
 	return sqrt((x - other.x)*(x - other.x) + (y - other.y)*(y - other.y));
 }*/
+
+void math::Vec3::print()
+{
+	std::cout << "v(" << x << "," << y << "," << z << ")" << " Magnitude : " << magnitude() << " Angle : "  << std::endl;
+}
+
+float math::Vec3::magnitude()
+{
+	return sqrt(this->mag2());
+}
+
+float math::Vec3::mag2()
+{
+	return (x*x) + (y, y) + (z, z);
+}
+
+
