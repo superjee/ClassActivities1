@@ -1,53 +1,189 @@
 //Vector 2D Int 
 #pragma once
+#include <iostream>
 #define PI 3.14159265
-namespace math {
+namespace mymath {
 
 	template <class T>
-	T addtest(T right, T left) {
-		
-		right.x += left.x;
-		right.y += left.y;
-		/*if(right.z != nullptr)
-		right.z += left.z;*/
-
-		return right;
-	}
-
-	class Vec2i 
+	class Vec2 
 	{
 	public:
-		Vec2i() {}
-		Vec2i(float x, float y);
-		virtual ~Vec2i();
+		Vec2();
+		Vec2(T x, T y);
+		~Vec2();
 
-		float x,y;
+		T x,y;
 
-		virtual Vec2i& add(const Vec2i &other);
-		virtual Vec2i& subtract(const Vec2i &other);
-		virtual Vec2i& multiply(const int &scale);
-		virtual Vec2i& divide(const int &scale);
+		Vec2<T>& add(const Vec2<T> &other);
+		Vec2<T>& subtract(const Vec2<T> &other);
+		Vec2<T>& multiply(const T &scale);
+		Vec2<T>& divide(const T &scale);
 
 		//overload operator +, -
-	    friend Vec2i operator+(Vec2i left, Vec2i right);
-	    friend Vec2i operator-(Vec2i left, Vec2i right);
-		//friend Vec2i operator*(Vec2i left, Vec2i right);
+		template <class T>
+	    friend Vec2<T> operator+(Vec2<T> left, Vec2<T> right);
 
-		virtual bool operator==(const Vec2i &other) const;
+		template <class T>
+	    friend Vec2<T> operator-(Vec2<T> left, Vec2<T> right);
 
-		virtual float dot(Vec2i other);
-		static float dot(Vec2i &other1,Vec2i &other2);
-		virtual float magnitude();
-		virtual float mag2();
-		Vec2i& normalized();
+		bool operator==(const Vec2<T> &other) const;
+		bool operator!=(const Vec2<T> & other) const;
+
+		float dot(Vec2<T> other);
+		static float dot(Vec2<T> &other1, Vec2<T> &other2);
+		float magnitude();
+		float mag2();
+		Vec2<T>& normalized();
 		float angle();
-		float angle(Vec2i other);
+		float angle(Vec2<T> other);
 
-		virtual void print();
+		void print();
 
 	};
 
-	class Vec3 : public Vec2i
+	template <class T>
+	Vec2<T>::Vec2()
+	{
+	}
+
+	template <class T>
+	Vec2<T>::Vec2(T x_, T y_)
+		:x(x_), y(y_)
+	{
+	}
+
+	template <class T>
+	Vec2<T>::~Vec2()
+	{
+	}
+
+	template <class T>
+	void Vec2<T>::print()
+	{
+		std::cout << "v(" << x << "," << y << ")" << " Magnitude : " << magnitude() << " Angle : " << angle() << std::endl;
+	}
+
+	template <class T>
+	Vec2<T>& Vec2<T>::add(const Vec2<T> &other)
+	{
+		x = x + other.x;
+		y = y + other.y;
+		return *this;
+	}
+
+	template <class T>
+	Vec2<T>& Vec2<T>::subtract(const Vec2<T> &other)
+	{
+		x = x - other.x;
+		y = y - other.y;
+		return *this;
+	}
+
+	template <class T>
+	Vec2<T>& Vec2<T>::multiply(const T &scale)
+	{
+		x = x * scale;
+		y = y * scale;
+		return *this;
+	}
+
+	template <class T>
+	Vec2<T> & Vec2<T>::divide(const T &scale)
+	{
+		x = x / scale;
+		y = y / scale;
+		return *this;
+	}
+	//////////////////////////////////////////////////////////////
+	template <class T>
+	Vec2<T> operator+(Vec2<T> left, Vec2<T> right)
+	{
+		return left.add(right);
+	}
+
+	template <class T>
+	Vec2<T> operator-(Vec2<T> left, Vec2<T> right)
+	{
+		return left.subtract(right);
+	}
+
+	template <class T>
+	bool Vec2<T>::operator==(const Vec2<T> & other) const
+	{
+		return(x == other.x) && (y == other.y);
+	}
+
+	template <class T>
+	bool Vec2<T>::operator!=(const Vec2<T> & other) const
+	{
+		return(x != other.x) || (y != other.y);
+	}
+
+	/////////////////////////////////////////////////////////////
+	template <class T>
+	float Vec2<T>::dot(Vec2<T>  other)
+	{
+		return (x*other.x) + (y*other.y);
+
+	}
+
+	template <class T>
+	float Vec2<T>::dot(Vec2<T> &other1, Vec2<T> &other2)
+	{
+		return (other1.x*other2.x) + (other1.y*other2.y);
+	}
+
+	template <class T>
+	float Vec2<T>::magnitude()
+	{
+		return sqrt(this->mag2());
+	}
+
+	template <class T>
+	float Vec2<T>::mag2()
+	{
+		return (x*x) + (y*y);
+	}
+
+	template <class T>
+	Vec2<T> & Vec2<T>::normalized()
+	{
+		float magn = this->magnitude();
+		x /= magn;
+		y /= magn;
+		return *this;
+	}
+
+	template <class T>
+	float Vec2<T>::angle()
+	{
+		return atan(y / x) * 180 / PI;
+	}
+
+	template <class T>
+	float Vec2<T>::angle(Vec2<T> other)
+	{
+		float dot_product = this->dot(other);
+		float this_magnitude = this->magnitude();
+		float other_magnitude = other.magnitude();
+		/*float this_slope = 0, other_slope = 0;
+		if(x != 0)
+		this_slope = atan(this->y / this->x);
+		if (x != 0)
+		other_slope = atan(other.y / other.x);
+
+		if (((this->x == other.x) && (this->y == other.y)) 
+			|| (this->x == 0 && this->y == 0) 
+			|| (other.x == 0 && other.y == 0) 
+			|| this_slope == other_slope)
+		{
+			return 0;
+		}
+		else*/
+		return acos(dot_product / (this_magnitude*other_magnitude))* 180 / PI;
+	}
+
+	/*class Vec3 : public Vec2
 	{
 	public:
 		Vec3() {}
@@ -60,39 +196,39 @@ namespace math {
 
 		float z;
 
-		Vec2i& add(const Vec3 &other) {
-			Vec2i::add(other);
+		Vec2& add(const Vec3 &other) {
+			Vec2::add(other);
 			z = z + other.z;
 			return *this;
 		}
-		Vec2i& add(const Vec2i &other) override { return Vec2i::add(other); }
+		Vec2& add(const Vec2 &other) override { return Vec2::add(other); }
 
-		Vec2i& subtract(const Vec3 &other) {
-			Vec2i::subtract(other);
+		Vec2& subtract(const Vec3 &other) {
+			Vec2::subtract(other);
 			z = z - other.z;
 			return *this;
 		}
-		Vec2i& subtract(const Vec2i &other) override { return Vec2i::subtract(other); }
+		Vec2& subtract(const Vec2 &other) override { return Vec2::subtract(other); }
 
-		Vec2i& multiply(const int &scale)
+		Vec2& multiply(const int &scale)
 		{
-			Vec2i::multiply(scale);
+			Vec2::multiply(scale);
 			z = z*scale;
 			return *this;
 		}
 
-		Vec2i& divide(const int &scale)
+		Vec2& divide(const int &scale)
 		{
-			Vec2i::divide(scale);
+			Vec2::divide(scale);
 			z = z/scale;
 			return *this;
 		}
 
-		friend Vec3 operator+(Vec2i left, Vec3 right) {
+		friend Vec3 operator+(Vec2 left, Vec3 right) {
 			right.add(left);
 			return right;
 		}
-		friend Vec3 operator+(Vec3 left, Vec2i right) {
+		friend Vec3 operator+(Vec3 left, Vec2 right) {
 			left.add(right);
 			return left;
 		}
@@ -101,12 +237,12 @@ namespace math {
 			return left;
 		}
 
-		friend Vec3 operator-(Vec2i left, Vec3 right) {
+		friend Vec3 operator-(Vec2 left, Vec3 right) {
 			left.subtract(right);
 			Vec3 dummy(left.x, left.y, -right.z);
 			return dummy;
 		}
-		friend Vec3 operator-(Vec3 left, Vec2i right) {
+		friend Vec3 operator-(Vec3 left, Vec2 right) {
 			left.subtract(right);
 			return left;
 		}
@@ -115,9 +251,9 @@ namespace math {
 			return left;
 		}
 
-		bool operator==(const Vec2i &other) const override { return Vec2i::operator==(other); }
+		bool operator==(const Vec2 &other) const override { return Vec2::operator==(other); }
 		bool operator==(const Vec3 &other) const {
-			if (Vec2i::operator==(other) && z == other.z)
+			if (Vec2::operator==(other) && z == other.z)
 			{
 				return true;
 			}
@@ -129,19 +265,15 @@ namespace math {
 
 		void print() override;
 
-		float dot(Vec2i other) override { return Vec2i::dot(other); }
+		float dot(Vec2 other) override { return Vec2::dot(other); }
 		float dot(Vec3 other) {
-			float xy = Vec2i::dot(other);
+			float xy = Vec2::dot(other);
 			return (z*other.z) + xy;
 		}
 
 		Vec3& cross(Vec3 other)
 		{
-			//return x * other.y - y * other.x;
 			Vec3 crossResult(y*other.z - z*other.y, z*other.x - x*other.z, x*other.y - y*other.x);
-			/*crossResult.x = y*other.z - z*other.y;
-			crossResult.y = z*other.x - x*other.z;
-			crossResult.z = x*other.y - y*other.x;*/
 			*this = crossResult;
 			return *this;
 		}
@@ -155,7 +287,7 @@ namespace math {
 		float angle(Vec3 other);
 		*/
 
-	};
+	//};*/
 }
 
 

@@ -127,6 +127,8 @@
     <ClCompile Include="TapBattle.cpp" />
     <ClCompile Include="Utility.cpp" />
     <ClCompile Include="Vec2i.cpp" />
+    <ClCompile Include="Vec3.cpp" />
+    <ClCompile Include="Vec4.cpp" />
     <ClCompile Include="WorldClock.cpp" />
     <ClCompile Include="WorldMap.cpp" />
     <ClCompile Include="zombie.cpp" />
@@ -148,6 +150,8 @@
     <ClInclude Include="TapBattle.h" />
     <ClInclude Include="Utility.h" />
     <ClInclude Include="Vec2i.hpp" />
+    <ClInclude Include="Vec3.hpp" />
+    <ClInclude Include="Vec4.hpp" />
     <ClInclude Include="WorldClock.hpp" />
     <ClInclude Include="WorldMap.h" />
     <ClInclude Include="zombie.h" />

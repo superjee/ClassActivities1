@@ -5,9 +5,11 @@
 #include "Engine.h"
 #include "Logger.h"
 #include "Vec2i.hpp"
+#include "Vec3.hpp"
+#include "Vec4.hpp"
 
 using namespace std;
-using namespace math;
+using namespace mymath;
 
 int main()
 {	
@@ -31,37 +33,106 @@ int main()
 	//Logger::Get().log("this is my data");
 	//cout << endl << "clock : " <<a.getDeltaTimeInMilliseconds();
 	
-	Vec2i v1(1 ,1);
-	Vec2i v2(2, 2);
-	Vec2i v3(3, 3);
-	Vec2i v4(4, 4);
+	/*Vec2<float> v1(1 ,1);
+	Vec2<float> v2(2, 2);
+	Vec2<float> v3(3, 3);
+	Vec2<float> v4(4, 4);
 	v1.print();
 	v2.print();
 	v3.print();
 	v4.print();
-	cout << "angle between v3(3, 3): v4(4, 4) = " <<v3.angle(v4) << endl;
-	v3.multiply(2);
-	cout << "v3.multiply(2) = "; v3.print();
-	v3.divide(2);
-	cout << "v3.divide(2) = "; v3.print();
-	cout << "v1.dot(v2) = " << v1.dot(v2) << endl;
-	v2.normalized();
-	cout << "v2.normalized() = "; v2.print();
-	cout << endl << "=====================" << endl;
-	Vec3 u1(1, 1,1);
-	Vec3 u2(2, 2,2);
-	Vec3 u3(3, 3,3);
-	Vec3 u4(4, 4,4);
-	u1.print();
-	u2.print();
-	u3.print();
-	u4.print();
-	cout << "u1.add(u1) = ";
-	u1.add(u1); u1.print();
-	cout << "u4.add(v1) = ";
-	u4.add(v1); u4.print();
-	cout << "v1.add(u3) = ";
-	v1.add(u3); v1.print();
+	v3.add(v3); cout << "v3.add(v3) = "; v3.print();
+	v3.subtract(Vec2<float>(3,3)); cout << "v3.subtract(Vec2<int>(3,3)) = "; v3.print();
+	v3.multiply(2); cout << "v3.multiply(2) = "; v3.print();
+	v3.divide(2); cout << "v3.divide(2) = "; v3.print();
+	Vec2<float> v5 = v1+v2; cout << "v1+v2 = "; v5.print();
+	Vec2<float> v6 = v2 - v1; cout << "v2-v1 = "; v6.print();
+	cout << "angle between (0, 5): (5, 0) = " << Vec2<int>(0,5).angle(Vec2<int>(5, 0)) << endl;
+	cout << "angle between (3, 3): (4, 4) = " << Vec2<float>(3, 3).angle(Vec2<float>(4, 4)) << endl;
+	Vec2<float> v7(7, 7);
+	Vec2<float> v8(8, 8);
+	cout << "(7, 7)dot(8, 8) = " << v7.dot(v8) << endl;
+	cout << "(7, 7)dot(8, 8) = " << Vec2<float>::dot(v7,v8) << endl;
+	Vec2<float> v9(7, 7);
+	Vec2<float> v10(7, 8);
+	if (v7 == v9)
+	{
+		cout << "if ((7, 7) == (7, 7)) : true" << endl;
+	}
+	if (v7 != v10)
+	{
+		cout << "if ((7, 7) != (7, 8)) : true" << endl;
+	}
+	v9.normalized();
+	cout << "v9.normalized()"; v9.print();
+
+	///////////////////////////////////////
+	
+	Vec3<float> v3_1(1, 1,1);
+	Vec3<float> v3_2(2, 2,2);
+	Vec3<float> v3_3(3, 3,3);
+	Vec3<float> v3_4(4, 4,4);
+	v3_1.print();
+	v3_2.print();
+	v3_3.print();
+	v3_4.print();
+	v3_3.add(v3_3); cout << "v3_3.add(v3_3) = "; v3_3.print();
+	v3_3.subtract(Vec3<float>(3, 3,3)); cout << "v3_3.subtract(Vec3<int>(3,3,3)) = "; v3_3.print();
+	v3_3.multiply(2); cout << "v3_3.multiply(2) = "; v3_3.print();
+	v3_3.divide(2); cout << "v3_3.divide(2) = "; v3_3.print();
+	Vec3<float> v3_5 = v3_1 + v3_2; cout << "v3_1+v3_2 = "; v3_5.print();
+	Vec3<float> v3_6 = v3_2 - v3_1; cout << "v3_2-v3_1 = "; v3_6.print();
+	Vec3<float> v3_7(7, 7,7);
+	Vec3<float> v3_8(8, 8,8);
+	cout << "(7, 7,7)dot(8, 8,8) = " << v3_7.dot(v3_8) << endl;
+	cout << "(7, 7,7)dot(8, 8,8) = " << Vec3<float>::dot(v3_7, v3_8) << endl;
+	Vec3<float> v3_9(7, 7,7);
+	Vec3<float> v3_10(7, 8,8);
+	if (v3_7 == v3_9)
+	{
+		cout << "if ((7, 7,7) == (7, 7,7)) : true" << endl;
+	}
+	if (v3_7 != v3_10)
+	{
+		cout << "if ((7, 7,7) != (7, 8,8)) : true" << endl;
+	}
+	Vec3<float> v3_11(2, 3, 4);
+	cout << "(2, 3,4)cross(5, 6,7) = "; v3_11.cross(Vec3<float>(5,6,7)); v3_11.print();
+	v3_9.normalized();
+	cout << "v3_9.normalized()"; v3_9.print();
+	cout << "angle between (2, -4,-1): (0, 5,2) = " << Vec3<float>(2, -4,-1).angle(Vec3<float>(0, 5, 2))<< endl;
+	///////////////////////////////////////*/
+	Vec4<float> v4_1(1, 1, 1,1);
+	Vec4<float> v4_2(2, 2, 2,2);
+	Vec4<float> v4_3(3, 3, 3,3);
+	Vec4<float> v4_4(4, 4, 4,4);
+	v4_1.print();
+	v4_2.print();
+	v4_3.print();
+	v4_4.print();
+	v4_3.add(v4_3); cout << "v4_3.add(v4_3) = "; v4_3.print();
+	v4_3.subtract(Vec4<float>(3, 3, 3,3)); cout << "v4_3.subtract(Vec4<int>(3,3,3,3)) = "; v4_3.print();
+	v4_3.multiply(2); cout << "v3_3.multiply(2) = "; v4_3.print();
+	v4_3.divide(2); cout << "v4_3.divide(2) = "; v4_3.print();
+	Vec4<float> v4_5 = v4_1 + v4_2; cout << "v4_1+v4_2 = "; v4_5.print();
+	Vec4<float> v4_6 = v4_2 - v4_1; cout << "v4_2-v4_1 = "; v4_6.print();
+	Vec4<float> v4_7(7, 7, 7,7);
+	Vec4<float> v4_8(8, 8, 8,8);
+	cout << "(7, 7,7,7)dot(8, 8,8,8) = " << v4_7.dot(v4_8) << endl;
+	cout << "(7, 7,7,7)dot(8, 8,8,8) = " << Vec4<float>::dot(v4_7, v4_8) << endl;
+	Vec4<float> v4_9(7, 7, 7,7);
+	Vec4<float> v4_10(7, 8, 8,8);
+	if (v4_7 == v4_9)
+	{
+		cout << "if ((7, 7,7,7) == (7, 7,7,7)) : true" << endl;
+	}
+	if (v4_7 != v4_10)
+	{
+		cout << "if ((7, 7,7,7) != (7, 8,8,8)) : true" << endl;
+	}
+	v4_9.print();
+	v4_9.normalized();
+	cout << "v4_9.normalized()"; v4_9.print();
 
 	getchar();
 	return 0;
