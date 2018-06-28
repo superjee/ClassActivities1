@@ -5,8 +5,9 @@
 #include "Engine.h"
 #include "Logger.h"
 #include "Vec2i.hpp"
-#include "Vec3.hpp"
-#include "Vec4.hpp"
+//#include "Vec3.hpp"
+//#include "Vec4.hpp"
+#include "Mat4.h"
 
 using namespace std;
 using namespace mymath;
@@ -101,7 +102,7 @@ int main()
 	v3_9.normalized();
 	cout << "v3_9.normalized()"; v3_9.print();
 	cout << "angle between (2, -4,-1): (0, 5,2) = " << Vec3<float>(2, -4,-1).angle(Vec3<float>(0, 5, 2))<< endl;
-	///////////////////////////////////////*/
+	///////////////////////////////////////
 	Vec4<float> v4_1(1, 1, 1,1);
 	Vec4<float> v4_2(2, 2, 2,2);
 	Vec4<float> v4_3(3, 3, 3,3);
@@ -132,7 +133,33 @@ int main()
 	}
 	v4_9.print();
 	v4_9.normalized();
-	cout << "v4_9.normalized()"; v4_9.print();
+	cout << "v4_9.normalized()"; v4_9.print();*/
+
+	Vec4<float> v4_1(1.0f, 2.0f, 3.0f, 4.0f);
+	Vec4<float> v4_2(5, 6, 7, 8);
+	Vec4<float> v4_3(9, 10, 11, 12);
+	Vec4<float> v4_4(13, 14, 15, 16);
+
+	float* a;
+	float b = 10;
+	a = &b;
+	Mat4 testMat(v4_1, v4_2, v4_3, v4_4);
+	Mat4 testMat2(v4_4, v4_3, v4_2, v4_1);
+	cout << "Mat1" << endl;
+	testMat.print();
+	cout << "Mat2" << endl;
+	testMat2.print();
+	cout << "Mat1 = Mat1 *  Mat1" << endl;
+	testMat *= testMat;
+	testMat.print();
+	Mat4 testMat3(v4_1, v4_2, v4_3, v4_4);
+	cout << "Mat *  Vec3<float>(1, 2, 3)" << endl;
+	//Vec3<float> v3_M = testMat3.Multiply(Vec3<float>(1, 2, 3));
+	Vec3<float> v3_M = testMat3*Vec3<float>(1, 2, 3);
+	v3_M.print();
+	cout << "Mat *  Vec4<float>(1, 2, 3, 4)" << endl;
+	Vec4<float> v4_M = testMat3.Multiply(Vec4<float>(1, 2, 3,0));
+	v4_M.print();
 
 	getchar();
 	return 0;
