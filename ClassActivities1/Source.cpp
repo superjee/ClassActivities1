@@ -160,6 +160,22 @@ int main()
 	cout << "Mat *  Vec4<float>(1, 2, 3, 4)" << endl;
 	Vec4<float> v4_M = testMat3.Multiply(Vec4<float>(1, 2, 3,0));
 	v4_M.print();
+	testMat = testMat2;
+	testMat.print();
+	cout << "testMat = Mat4::Identity()" << endl;
+	testMat = Mat4::Identity();
+	testMat.print();
+	cout << "testMat4 = Mat4::Transpose(testMat4);" << endl;
+	Mat4 testMat4(v4_1, v4_2, v4_3, v4_4);
+	testMat4 = Mat4::Transpose(testMat4);
+	testMat4.print();
+	cout << "testMat4 = Mat4::Rotate(90,Vec3<float>(1,0,0));" << endl;
+	testMat4 = Mat4::Rotate(90,Vec3<float>(1,0,0));
+	testMat4.print();
+	cout << "testMat4 = Mat4::Translate(Vec3<float>(100, 0, 0));" << endl;
+	testMat4 = testMat;
+	testMat4 = Mat4::Translate(Vec3<float>(100, 0, 0));
+	testMat4.print();
 
 	getchar();
 	return 0;

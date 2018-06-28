@@ -136,6 +136,72 @@ Vec4<float> mymath::Mat4::Multiply(const Vec4<float>& other) const
 	return Result;
 }
 
+Mat4 mymath::Mat4::Identity()
+{
+	Mat4 identity(1);
+	return identity;
+}
+
+Mat4 mymath::Mat4::Translate(const Vec3<float>& translation)
+{
+	Mat4 Result;
+	Result._m[0][0] = 1.0f;
+	Result._m[1][0] = 0.0f;
+	Result._m[2][0] = 0.0f;
+	Result._m[3][0] = translation.x;
+
+	Result._m[0][1] = 0.0f;
+	Result._m[1][1] = 1.0f;
+	Result._m[2][1] = 0.0f;
+	Result._m[3][1] = translation.y;
+
+	Result._m[0][2] = 0.0f;
+	Result._m[1][2] = 0.0f;
+	Result._m[2][2] = 1.0f;
+	Result._m[3][2] = translation.z;
+
+	Result._m[0][3] = 0.0f;
+	Result._m[1][3] = 0.0f;
+	Result._m[2][3] = 0.0f;
+	Result._m[3][3] = 1.0f;
+	return Result;
+}
+
+Mat4 mymath::Mat4::Rotate(float angle, const Vec3<float>& axis)
+{
+	float c = cosf(angle);
+	float s = sinf(angle);
+	float t = 1.0f - c;
+
+	Vec3<float> NormalizedAxis = axis;
+	NormalizedAxis.normalized();
+	float x = NormalizedAxis.x;
+	float y = NormalizedAxis.y;
+	float z = NormalizedAxis.z;
+
+	Mat4 Result;
+	Result._m[0][0] = 1 + t*(x*x - 1);
+	Result._m[0][1] = z*s + t*x*y;
+	Result._m[0][2] = -y*s + t*x*z;
+	Result._m[0][3] = 0.0f;
+
+	Result._m[1][0] = -z*s + t*x*y;
+	Result._m[1][1] = 1 + t*(y*y - 1);
+	Result._m[1][2] = x*s + t*y*z;
+	Result._m[1][3] = 0.0f;
+
+	Result._m[2][0] = y*s + t*x*z;
+	Result._m[2][1] = -x*s + t*y*z;
+	Result._m[2][2] = 1 + t*(z*z - 1);
+	Result._m[2][3] = 0.0f;
+
+	Result._m[3][0] = 0.0f;
+	Result._m[3][1] = 0.0f;
+	Result._m[3][2] = 0.0f;
+	Result._m[3][3] = 1.0f;
+	return Result;
+}
+
 void Mat4::setData(int row, Vec4<float>& vec4)
 {
 	_m[0][row] = vec4.x;
@@ -189,4 +255,22 @@ Vec3<float> mymath::operator*(const Mat4 & left, const Vec3<float>& right)
 Vec4<float> mymath::operator*(const Mat4 & left, const Vec4<float>& right)
 {
 	return left.Multiply(right);
+}
+
+Mat4 mymath::Mat4::Transpose(const Mat4 & matrix)
+{
+	Mat4 Result;
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			Result._m[j][i] = matrix._m[i][j];
+		}
+	}
+	return Result;
+}
+
+std::string mymath::Mat4::ToString() const
+{
+	return string();
 }

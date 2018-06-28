@@ -3,6 +3,7 @@
 #define _MAT4
 
 #include <iostream>
+#include <string>
 #include "Vec3.hpp"
 #include "Vec4.hpp"
 #define PI 3.14159265
@@ -37,17 +38,17 @@ namespace mymath {
 		friend Vec4<float> operator*(const Mat4& left, const Vec4<float>& right);
 		
 
-		Mat4& Invert();
+		//Mat4& Invert();
 
 		static Mat4 Identity();
 
 		static Mat4 Translate(const Vec3<float>& translation);
 		static Mat4 Rotate(float angle, const Vec3<float>& axis);
-		static Mat4 Scale(const Vec3<float>& scale);
-		static Mat4 Invert(const Mat4& matrix);
+		//static Mat4 Scale(const Vec3<float>& scale);
+		//static Mat4 Invert(const Mat4& matrix);
 		static Mat4 Transpose(const Mat4& matrix);
 
-		string ToString() const;
+		std::string ToString() const;
 	};
 }
 #endif
